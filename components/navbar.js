@@ -2,10 +2,10 @@ import React from "react";
 
 export default function Navbar() {
   const pages = [
-    { name: "Home", href: "#", current: true },
-    { name: "Multi-search", href: "#", current: false },
-    { name: "Sealed", href: "#", current: false },
-    { name: "About", href: "#", current: false },
+    { name: "Home", href: "/", current: true },
+    { name: "Multi-search", href: "multisearch", current: false },
+    { name: "Sealed", href: "sealed", current: false },
+    { name: "About", href: "about", current: false },
   ];
   return (
     <div>

@@ -1,7 +1,5 @@
 import Head from "next/head";
-import Searchbox from "@/components/searchbox";
-import Homebanner from "@/components/homebanner";
-export default function Home() {
+export default function Multisearch() {
   return (
     <>
       <Head>
@@ -15,8 +13,7 @@ export default function Home() {
       </Head>
       <main className="flex flex-col justify-between items-center p-24 min-h-screen">
         <div className="flex-col items-center justify-center flex-1 px-20 text-center">
-          <Homebanner />
-          <Searchbox />
+         <div className="text-red-500">Multisearch</div> 
         </div>
       </main>
     </>
