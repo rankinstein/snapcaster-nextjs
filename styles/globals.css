@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md text-sm font-medium;
+  }
+  .btn-small {
+    @apply px-2 py-1 rounded-md text-xs font-medium transition-colors bg-green-700 hover:bg-green-900;
+  }
+}
 :root {
   --max-width: 1100px;
   --border-radius: 12px;

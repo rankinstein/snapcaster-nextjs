@@ -21,11 +21,57 @@ export default function searchfilters() {
       <div
         className={`transition-all flex flex-col justify-center items-center w-full p-2 ${
           store.showFilters ? "opacity-100 h-72" : "opacity-0 h-0"
-        }`}
+        } bg-gradient-to-b from-gray-900 to-slate-800 shadow-md rounded-sm`}
       >
         {store.showFilters && (
           <>
-            <div>Condition</div>
+            {/* selector for sort by */}
+            <div className="flex flex-row justify-between items-center p-2">
+              <div className="flex flex-row justify-between items-center p-2">
+                <label className="text-gray-400 text-sm mr-2">Sort By</label>
+                <select
+                  className="p-1 rounded-md text-white text-sm"
+                  onChange={(e) => {
+                    store.setSortBy(e.target.value);
+                  }}
+                >
+                  <option value="price">Price</option>
+                  <option value="name">Name</option>
+                  <option value="condition">Condition</option>
+                  <option value="set">Set</option>
+                  <option value="website">Website</option>
+                </select>
+              </div>
+              <div>
+                <select
+                  className="p-1 rounded-md text-white text-sm"
+                  onChange={(e) => {
+                    store.setSortOrder(e.target.value);
+                  }}
+                >
+                  <option value="asc">Ascending</option>
+                  <option value="desc">Descending</option>
+                </select>
+              </div>
+            </div>
+            {/* foil only toggle */}
+            <div className="flex flex-row justify-between items-center p-2">
+              <span className="mr-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                Foil only
+              </span>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={store.foilOnly}
+                  onChange={() => {
+                    store.setFoilOnly(!store.foilOnly);
+                  }}
+                />
+                <div className="w-7 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600"></div>
+              </label>
+            </div>
+            <div className="text-sm font-bold mt-2">Condition</div>
             {/* two columns for condition checkboxes */}
             <div className="grid grid-cols-2 py-4 max-w-md gap-x-10">
               {/* map checkboxes */}
@@ -51,68 +97,14 @@ export default function searchfilters() {
                 </div>
               ))}
             </div>
-            {/* selector for sort by */}
-            <div className="flex flex-row justify-between items-center p-2">
-              <div className="flex flex-row justify-between items-center p-2">
-                <label className="text-gray-400 text-sm mr-2">Sort By</label>
-                <select
-                  className="p-1 rounded-md text-white text-sm"
-                  onChange={(e) => {
-                    store.setSortBy(e.target.value);
-                  }}
-                >
-                  <option value="price">Price</option>
-                  <option value="name">Name</option>
-                  <option value="condition">Condition</option>
-                  <option value="set">Set</option>
-                  <option value="website">Website</option>
-                </select>
-              </div>
-              <div>
-
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="sr-only peer"
-                    checked={store.sortOrder === "asc"}
-                    onChange={() => {
-                      store.setSortOrder(
-                        store.sortOrder === "asc" ? "dec" : "asc"
-                      );
-                    }}
-                  />
-                  <div className="w-11 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-500 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:mt-0.5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-400"></div>
-                  <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    asc
-                  </span>
-                </label>
-              </div>
-            </div>
-            {/* foil only toggle */}
-            <div className="flex flex-row justify-between items-center p-2">
-            <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="sr-only peer"
-                    checked={store.foilOnly}
-                    onChange={() => {
-                      store.setFoilOnly(!store.foilOnly);
-                    }}
-                  />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600"></div>
-                  <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Foil
-                  </span>
-                </label>
-            </div>
 
             <button
-              className="bg-purple-500 p-1 m-2 rounded-md text-white text-sm"
+              className="bg-gray-900 p-1 px-3 m-2 rounded-md text-white text-sm"
               onClick={() => {
-                console.log("apply");
+                console.log("Apply Filter");
               }}
             >
-              apply
+              Apply
             </button>
           </>
         )}
