@@ -19,7 +19,7 @@ export default function searchfilters() {
     <div className="flex flex-col justify-center items-center w-full p-2">
       {/* div for filters should always render but not be visible unless showFilters is true */}
       <div
-        className={`transition-all flex flex-col justify-center items-center w-full p-2 ${
+        className={`transition-all flex flex-col justify-center items-center w-full ${
           store.showFilters ? "opacity-100 h-72" : "opacity-0 h-0"
         } bg-gradient-to-b from-gray-900 to-slate-800 shadow-md rounded-sm`}
       >
