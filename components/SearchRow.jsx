@@ -38,7 +38,7 @@ export default function SearchRow({ cardData }) {
   return (
     <>
         <>
-          <div className="grid grid-cols-12 gap-4 m-1 p-2 hover:backdrop-brightness-75 rounded-md transition-all bg-slate-800 hover:bg-slate-700">
+          <div className="grid grid-cols-12 gap-4 m-1 p-2 hover:backdrop-brightness-75 rounded-md transition-all bg-slate-700 hover:bg-slate-800">
             <div className="col-span-3">
               <img
                 src={cardData.image}

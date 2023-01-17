@@ -7,7 +7,7 @@
     @apply px-4 py-2 rounded-md text-sm font-medium;
   }
   .btn-small {
-    @apply px-2 py-1 rounded-md text-xs font-medium transition-colors bg-purple-600;
+    @apply px-2 py-1 rounded-md text-xs font-medium transition-colors bg-purple-600 hover:bg-purple-700;
   }
 }
 :root {
