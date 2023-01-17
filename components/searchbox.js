@@ -10,7 +10,7 @@ export default function Searchbox() {
     console.log("searching for: " + searchQuery);
     axios
       // fetch from vite env variable
-      .post(`http://localhost:8000/search/single/`, {
+      .post(`api/test/`, {
         cardName: searchQuery,
         websites: ["all"],
       })

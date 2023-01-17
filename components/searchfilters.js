@@ -15,6 +15,58 @@ export default function searchfilters() {
     { label: "SCAN", value: store.conditions.scan },
   ];
 
+  const applyFilters = (store) => {
+    // get raw results
+    // filter out by condition
+    let filteredResults = store.resultsRaw.filter((card) => {
+      // if the card condition is in the store conditions object, return true
+      return store.conditions[card.condition.toLowerCase()];
+    });
+    // filter out by foil
+    if (store.foilOnly) {
+      filteredResults = filteredResults.filter((card) => {
+        return card.foil;
+      });
+    }
+
+    // sort by
+    let sortedResults = filteredResults.sort((a, b) => {
+      if (store.sortBy === "price") {
+        return a.price - b.price;
+      } else if (store.sortBy === "name") {
+        return a.name.localeCompare(b.name);
+      } else if (store.sortBy === "set") {
+        return a.set.localeCompare(b.set);
+      } else if (store.sortBy === "website") {
+        return a.website.localeCompare(b.website);
+      }
+    });
+
+    // reverse if descending
+    if (store.sortOrder === "desc") {
+      sortedResults = sortedResults.reverse();
+    }
+
+    store.setResults(sortedResults);
+    console.log("sorted results: ", sortedResults);
+  };
+
+  const resetFilters = (store) => {
+    store.setConditions({
+      nm: true,
+      lp: true,
+      pl: true,
+      mp: true,
+      hp: true,
+      dmg: true,
+      scan: true,
+    });
+    store.setFoilOnly(false);
+    store.setSortBy("price");
+    store.setSortOrder("asc");
+    store.setResults(store.resultsRaw);
+  };
+
   return (
     <div className="flex flex-col justify-center items-center w-full p-2">
       {/* div for filters should always render but not be visible unless showFilters is true */}
@@ -37,7 +89,6 @@ export default function searchfilters() {
                 >
                   <option value="price">Price</option>
                   <option value="name">Name</option>
-                  <option value="condition">Condition</option>
                   <option value="set">Set</option>
                   <option value="website">Website</option>
                 </select>
@@ -98,14 +149,29 @@ export default function searchfilters() {
               ))}
             </div>
 
+            <div className="flex flex-row space-x-2">
+
+                    <button className="bg-gray-900 p-1 px-3 m-2 rounded-md text-white text-sm" onClick={() => {
+                        console.log("Clear Filters");
+                        resetFilters(store);
+                    }}>Clear</button>
+
             <button
               className="bg-gray-900 p-1 px-3 m-2 rounded-md text-white text-sm"
               onClick={() => {
                 console.log("Apply Filter");
+                console.log("store.conditions", store.conditions);
+                applyFilters(store);
               }}
             >
               Apply
             </button>
+
+
+            </div>
+
+
+
           </>
         )}
       </div>

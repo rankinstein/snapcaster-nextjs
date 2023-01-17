@@ -4,13 +4,19 @@ import useStore from "@/store";
 export default function Searchinfo() {
   const { useHomePageStore } = useStore();
   const store = useHomePageStore();
-  const { resultsRaw, searchQuery } = store;
+  const { resultsRaw, results, searchQuery } = store;
 
   return (
-    <div className="flex justify-center items-center w-full p-2">
-      <p className="text-sm text-white">
-        {resultsRaw.length} results for "{searchQuery}"
-      </p>
+    <div className="flex flex-col justify-center items-center w-full p-2">
+      { resultsRaw.length != results.length ? (
+        <p className="text-sm text-white">
+          Displaying {results.length} of {resultsRaw.length} results for "{searchQuery}"
+        </p>
+      ) : (
+        <p className="text-sm text-white">
+          {results.length} results for "{searchQuery}"
+        </p>
+      )}
     </div>
   );
 }
