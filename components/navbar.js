@@ -10,9 +10,14 @@ export default function Navbar() {
 
   const pages = [
     { name: "Home", href: "/", current: currentPath === "/" },
-    { name: "Multi-search", href: "multisearch", current: currentPath === '/multisearch' },
-    { name: "Sealed", href: "sealed", current: currentPath === '/sealed' },
-    { name: "About", href: "about", current: currentPath === '/about' },
+    { name: "Stocks", href: "stocks", current: currentPath === "/stocks" },
+    {
+      name: "Multi-search",
+      href: "multisearch",
+      current: currentPath === "/multisearch",
+    },
+    { name: "Sealed", href: "sealed", current: currentPath === "/sealed" },
+    { name: "About", href: "about", current: currentPath === "/about" },
   ];
   return (
     <div>
@@ -79,16 +84,20 @@ export default function Navbar() {
               </div>
               <div className="hidden sm:block sm:ml-6">
                 <div className="flex space-x-4">
-                  {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                   {pages.map((page) => (
                     <a
                       key={page.name}
                       href={page.href}
-                      className={
-                        page.current
-                          ? "bg-gray-600 text-white px-3 py-2 rounded-md text-sm font-medium"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                      }
+                      // stocks page should have red background
+                      // current page should have gray background (even for stocks page)
+                      className={`
+text-white rounded-md py-2 px-3 text-sm font-medium hover:bg-gray-700
+${
+  page.current
+    ? "bg-gray-600 hover:bg-gray-500"
+    : page.name === "Stocks" && "bg-purple-900 hover:bg-purple-700"
+} 
+`}
                     >
                       {page.name}
                     </a>

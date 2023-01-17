@@ -66,7 +66,7 @@ export default function SearchRow({ cardData }) {
               <div className="flex flex-col items-end">
                 <div className="text-lg font-bold">${cardData.price}</div>
                 <div className="flex flex-row space-x-2">
-                {cardData.foil && <div className="text-sm font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">Foil</div>}
+                {cardData.foil && <div className="text-sm font-extrabold text-purple-500">Foil</div>}
                 <div className="text-sm font-bold">{cardData.condition}</div>
                 </div>
                 <button className="btn-small mt-2"
