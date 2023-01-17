@@ -38,7 +38,25 @@ const homePageStore = (set) => ({
   setShowFilters: (showFilters) => set({ showFilters }),
 });
 
+const multiSearchStore = (set) => ({
+  resultsRaw: [],
+  setResultsRaw: (resultsRaw) => set({ resultsRaw }),
+  results: [],
+  setResults: (results) => set({ results }),
+  loading: false,
+  setLoading: (loading) => set({ loading }),
+  cardNames: [],
+  setCardNames: (cardNames) => set({ cardNames }),
+  websites: {
+    four01: true,
+    gauntlet: true,
+    topdeckhero: true,
+  },
+  setWebsites: (websites) => set({ websites }),
+});
+
 const useHomePageStore = create(homePageStore);
+const useMultiSearchStore = create(multiSearchStore);
 export default function useStore() {
-  return { useHomePageStore };
+  return { useHomePageStore, useMultiSearchStore };
 }

@@ -1,11 +1,18 @@
 import React from "react";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
+  // get the current page from the url
+  // set the current page to true
+  // set all other pages to false
+
+  const currentPath = useRouter().pathname;
+
   const pages = [
-    { name: "Home", href: "/", current: true },
-    { name: "Multi-search", href: "multisearch", current: false },
-    { name: "Sealed", href: "sealed", current: false },
-    { name: "About", href: "about", current: false },
+    { name: "Home", href: "/", current: currentPath === "/" },
+    { name: "Multi-search", href: "multisearch", current: currentPath === '/multisearch' },
+    { name: "Sealed", href: "sealed", current: currentPath === '/sealed' },
+    { name: "About", href: "about", current: currentPath === '/about' },
   ];
   return (
     <div>
