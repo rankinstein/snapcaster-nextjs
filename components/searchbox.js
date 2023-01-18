@@ -24,7 +24,7 @@ export default function Searchbox() {
   };
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 w-full">
       <div className="relative">
         <form
           onSubmit={(e) => {

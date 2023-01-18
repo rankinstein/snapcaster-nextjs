@@ -26,7 +26,7 @@ export default function Home() {
       <main className="flex flex-col justify-between items-center px-4 sm:px-24 min-h-screen">
         {/* We want Homebanner and Searchbox components to fade out to 0 opacity and then fade in CatalogView component */}
         {/* This happens when loading is set to false */}
-        <div className="flex-col items-center justify-center flex-1 text-center max-w-2xl">
+        <div className="flex-col justify-center flex-1 text-center max-w-2xl w-full">
           {store.showBanner && (
             <>
               <Homebanner />
@@ -38,11 +38,15 @@ export default function Home() {
               <Loadingspinner />
             </div>
           )}
-          {!store.showBanner && store.results.length > 0 && (
+          {!store.showBanner && (
             <>
               <Searchbox />
               <Searchinfo />
               <SearchFilters />
+            </>
+          )}
+          {!store.showBanner && store.results.length > 0 && (
+            <>
               <CatalogView cardData={store.results} />
             </>
           )}
