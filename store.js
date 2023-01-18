@@ -133,47 +133,76 @@ const homePageStore = (set) => ({
 });
 
 const multiSearchStore = (set) => ({
-    // a state that can either be for the search page or the results page
-    mode: "search",
-    // if mode is search, set mode to results
-    // if mode is results, set mode to search
-    toggleMode: () => {
-      console.log("toggleMode")
-      set((state) => {
-        if (state.mode === "search") {
-          return { mode: "results" };
+  // a state that can either be for the search page or the results page
+  mode: "search",
+  // if mode is search, set mode to results
+  // if mode is results, set mode to search
+  toggleMode: () => {
+    console.log("toggleMode");
+    set((state) => {
+      if (state.mode === "search") {
+        return { mode: "results" };
+      } else {
+        return { mode: "search" };
+      }
+    });
+  },
+  updateSelectedVariant: (card, variant) => {
+    set((state) => {
+      const results = state.results.map((result) => {
+        if (result.name === card.name) {
+          return { ...result, selectedVariant: variant };
         } else {
-          return { mode: "search" };
+          return result;
         }
       });
-    },
+      return { results };
+    });
+  },
+
   handleSubmit: (e) => {
     set({ loading: true });
     console.log("handleSubmit");
-    axios.post("api/multisearch/", { 
-      cardNames: ["Lightning Bolt"],
-      websites: ["aethervault", "atlas"],
-      worstCondition: "NM",
-    }).then((res) => {
-      set({ resultsRaw: res.data });
-      set((state) => {
-        if (state.mode === "search") {
-          return { mode: "results" };
-        } else {
-          return { mode: "search" };
-        }
+    axios
+      .post("api/multisearch/", {
+        cardNames: ["Lightning Bolt"],
+        websites: ["aethervault", "atlas"],
+        worstCondition: "NM",
+      })
+      .then((res) => {
+        set({ resultsRaw: res.data });
+        set((state) => {
+          if (state.mode === "search") {
+            return { mode: "results" };
+          } else {
+            return { mode: "search" };
+          }
+        });
+        set({ loading: false });
+        set((state) => {
+          const results = state.resultsRaw.map((result) => {
+            const selectedVariant = result.variants[0];
+            return { ...result, selectedVariant };
+          });
+          return { results };
+        });
       });
-      set({ loading: false });
-    }
-    );
   },
-
-
 
   searchQuery: "",
   setSearchQuery: (searchQuery) => set({ searchQuery }),
   resultsRaw: [],
-  setResultsRaw: (resultsRaw) => set({ resultsRaw }),
+  setResultsRaw: (resultsRaw) => {
+    set({ resultsRaw });
+    // results is the same as resultsRaw except for each results, we add the "selectedVariant" field, set this to the first variant
+    set((state) => {
+      const results = state.resultsRaw.map((result) => {
+        const selectedVariant = result.variants[0];
+        return { ...result, selectedVariant };
+      });
+      return { results };
+    });
+  },
   results: [],
   setResults: (results) => set({ results }),
   loading: false,

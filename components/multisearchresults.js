@@ -9,7 +9,7 @@ export default function MultiSearchResults() {
   return (
     <div>
       <MultiSearchResultsInfo />
-      {store.resultsRaw.map((result, index) => {
+      {store.results.map((result, index) => {
         return (
           <div key={index}>
             <MultiSearchCard card={result}/>
