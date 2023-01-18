@@ -107,7 +107,7 @@ const websites = [
         code: 'orchardcity',
     },
     {
-        name: 'Sequence Gaming Brockville',
+        name: 'Sequence Gaming',
         code: 'sequencegaming',
     },
     {
@@ -121,32 +121,58 @@ const websites = [
 
 ]
 export default function StoreSelector() {
-    const { useMultiSearchStore: store  } = useStore()
+    const { useMultiSearchStore } = useStore()
+    const store = useMultiSearchStore()
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col">
+    <div className="grid md:grid-cols-3 grid-cols-2 w-full">
         {
             websites.map((website, index) => {
                 return (
-                    <div key={index} className="flex items-center">
-                        <input
+                    <div key={index} className="flex items-center bg-slate-800 hover:bg-slate-700  accent-purple-700 p-2 rounded-md m-1"
+                    onClick={() => {
+                        store.setWebsites({
+                            ...store.websites,
+                            [website.code]: !store.websites[website.code],
+                        })
+                    }}
+                    >
+                        <input 
                             type="checkbox"
-                            checked={store.getState().websites[website.code]}
+                            checked={store.websites[website.code]}
                             onChange={(e) => {
-                                store.setState({
-                                    websites: {
-                                        ...store.getState().websites,
-                                        [website.code]: e.target.checked,
-                                    }
+                                store.setWebsites({
+                                    ...store.websites,
+                                    [website.code]: e.target.checked,
                                 })
                             }}
                         />
-                        <label className="ml-2">{website.name}</label>
+                        <label className="ml-2 text-sm">{website.name}</label>
                     </div>
                 )
             }
             )
         }
     </div>
+
+    <button className="bg-slate-800 hover:bg-slate-700 p-2 rounded-md m-1" onClick={() => {
+        let allSelected = {}
+        websites.forEach((website) => {
+            allSelected[website.code] = true
+        })
+        let noneSelected = {}
+        websites.forEach((website) => {
+            noneSelected[website.code] = false
+        })
+        if (JSON.stringify(store.websites) === JSON.stringify(allSelected)) {
+            store.setWebsites(noneSelected)
+        } else {
+            store.setWebsites(allSelected)
+        }
+            
+    }}>Select All</button>
+      
+        </div>
 
   )
 }
