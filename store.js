@@ -1,106 +1,106 @@
 import { create } from "zustand";
+import axios from "axios";
 
 const websites = [
   {
-      name: 'Aether Vault Games',
-      code: 'aethervault',
+    name: "Aether Vault Games",
+    code: "aethervault",
   },
   {
-      name: 'Atlas Collectables',
-      code: 'atlas',
+    name: "Atlas Collectables",
+    code: "atlas",
   },
   {
-      name: 'Border City Games',
-      code: 'bordercity',
+    name: "Border City Games",
+    code: "bordercity",
   },
   {
-      name: 'The Connection Games',
-      code: 'connectiongames',
+    name: "The Connection Games",
+    code: "connectiongames",
   },
   {
-      name: 'Everything Games',
-      code: 'everythinggames',
+    name: "Everything Games",
+    code: "everythinggames",
   },
   {
-      name: 'Exor Games',
-      code: 'exorgames',
+    name: "Exor Games",
+    code: "exorgames",
   },
   {
-      name: 'Face to Face Games',
-      code: 'facetoface',
+    name: "Face to Face Games",
+    code: "facetoface",
   },
   {
-      name: 'Fantasy Forged Games',
-      code: 'fantasyforged',
+    name: "Fantasy Forged Games",
+    code: "fantasyforged",
   },
   {
-      name: 'FirstPlayer',
-      code: 'firstplayer',
+    name: "FirstPlayer",
+    code: "firstplayer",
   },
   {
-      name: '401 Games',
-      code: 'four01',
+    name: "401 Games",
+    code: "four01",
   },
   {
-      name: 'Fusion Gaming',
-      code: 'fusiongaming',
+    name: "Fusion Gaming",
+    code: "fusiongaming",
   },
   {
-      name: 'GameKnight',
-      code: 'gameknight',
+    name: "GameKnight",
+    code: "gameknight",
   },
   {
-      name: 'Gamezilla',
-      code: 'gamezilla',
+    name: "Gamezilla",
+    code: "gamezilla",
   },
   {
-      name: 'Gauntlet Games',
-      code: 'gauntlet',
+    name: "Gauntlet Games",
+    code: "gauntlet",
   },
   {
-      name: 'Hairy Tarantula',
-      code: 'hairyt',
+    name: "Hairy Tarantula",
+    code: "hairyt",
   },
   {
-      name: 'House of Cards',
-      code: 'houseofcards',
+    name: "House of Cards",
+    code: "houseofcards",
   },
   {
-      name: 'Jeux 3 Dragons',
-      code: 'jeux3dragons',
+    name: "Jeux 3 Dragons",
+    code: "jeux3dragons",
   },
   {
-      name: 'Manaforce',
-      code: 'manaforce',
+    name: "Manaforce",
+    code: "manaforce",
   },
   {
-      name: 'Magic Stronghold',
-      code: 'magicstronghold',
+    name: "Magic Stronghold",
+    code: "magicstronghold",
   },
   {
-      name: 'Orchard City Games',
-      code: 'orchardcity',
+    name: "Orchard City Games",
+    code: "orchardcity",
   },
   {
-      name: 'Sequence Gaming Brockville',
-      code: 'sequencegaming',
+    name: "Sequence Gaming Brockville",
+    code: "sequencegaming",
   },
   {
-      name: 'Topdeck Hero',
-      code: 'topdeckhero',
+    name: "Topdeck Hero",
+    code: "topdeckhero",
   },
   {
-      name: 'Wizard\'s Tower (kanatacg)',
-      code: 'wizardstower',
+    name: "Wizard's Tower (kanatacg)",
+    code: "wizardstower",
   },
-
-]
+];
 
 const homePageStore = (set) => ({
   resultsRaw: [],
   setResultsRaw: (resultsRaw) => set({ resultsRaw }),
   results: [],
-//   setResults should sort the results by the current sortBy and sortOrder
+  //   setResults should sort the results by the current sortBy and sortOrder
   setResults: (results) => set({ results }),
   showBanner: true,
   setShowBanner: (showBanner) => set({ showBanner }),
@@ -133,6 +133,45 @@ const homePageStore = (set) => ({
 });
 
 const multiSearchStore = (set) => ({
+    // a state that can either be for the search page or the results page
+    mode: "search",
+    // if mode is search, set mode to results
+    // if mode is results, set mode to search
+    toggleMode: () => {
+      console.log("toggleMode")
+      set((state) => {
+        if (state.mode === "search") {
+          return { mode: "results" };
+        } else {
+          return { mode: "search" };
+        }
+      });
+    },
+  handleSubmit: (e) => {
+    set({ loading: true });
+    console.log("handleSubmit");
+    axios.post("api/multisearch/", { 
+      cardNames: ["Lightning Bolt"],
+      websites: ["aethervault", "atlas"],
+      worstCondition: "NM",
+    }).then((res) => {
+      set({ resultsRaw: res.data });
+      set((state) => {
+        if (state.mode === "search") {
+          return { mode: "results" };
+        } else {
+          return { mode: "search" };
+        }
+      });
+      set({ loading: false });
+    }
+    );
+  },
+
+
+
+  searchQuery: "",
+  setSearchQuery: (searchQuery) => set({ searchQuery }),
   resultsRaw: [],
   setResultsRaw: (resultsRaw) => set({ resultsRaw }),
   results: [],
@@ -164,7 +203,7 @@ const multiSearchStore = (set) => ({
     orchardcity: true,
     sequencegaming: true,
     topdeckhero: true,
-    wizardstower: true, 
+    wizardstower: true,
   },
   setWebsites: (websites) => set({ websites }),
 });

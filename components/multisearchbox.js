@@ -1,10 +1,10 @@
-import React from "react";
-
-
+import useStore from "@/store";
 export default function Multisearchbox() {
-  
+  const { useMultiSearchStore } = useStore();
+  const store = useMultiSearchStore();
+
   return (
-    <div className="flex w-full justify-center">
+    <div className="flex flex-col w-full justify-center">
       <div className="my-3 w-full">
         <label
           for="multisearchFormControlTextarea1"
@@ -37,8 +37,29 @@ export default function Multisearchbox() {
 1 Arcane Signet
 Dockside Extortionist
 Counterspell`}
+          value={store.searchQuery}
+          onChange={(e) => store.setSearchQuery(e.target.value)}
         ></textarea>
       </div>
+      <button
+        className="
+            bg-purple-600
+            hover:bg-purple-700
+            text-white
+            font-bold
+            py-2
+            px-4
+            rounded
+            focus:outline-none
+            focus:shadow-outline
+            mt-4
+            mx-auto
+          "
+        type="button"
+        onClick={() => store.handleSubmit()}
+      >
+        Search
+      </button>
     </div>
   );
 }

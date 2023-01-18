@@ -23,10 +23,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex flex-col justify-between items-center px-4 sm:px-24 min-h-screen">
+      <main className="flex flex-col justify-between items-center p-8 min-h-screen">
         {/* We want Homebanner and Searchbox components to fade out to 0 opacity and then fade in CatalogView component */}
         {/* This happens when loading is set to false */}
-        <div className="flex-col justify-center flex-1 text-center max-w-2xl w-full">
+        <div className="flex-col justify-center flex-1 text-center max-w-xl w-full">
           {store.showBanner && (
             <>
               <Homebanner />
