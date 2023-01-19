@@ -12,7 +12,7 @@ export default function MultiSearchResultsInfo() {
           {/* reset button */}
           <div className="flex justify-center">
             <button
-              className="transition-all outline outline-2 -outline-offset-2 outline-purple-500 hover:bg-purple-500 hover:bg-opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto"
+              className="transition-all outline outline-2 -outline-offset-2 outline-purple-500 hover:bg-purple-500 hover:bg-opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-purple-900 focus:shadow-outline mt-4 mx-auto"
               type="button"
               onClick={() => store.resetStore()}
             >
@@ -21,7 +21,7 @@ export default function MultiSearchResultsInfo() {
           </div>
           <div className="flex justify-center">
             <button
-              className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto"
+              className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-purple-900 focus:shadow-outline mt-4 mx-auto"
               type="button"
               onClick={() => store.handleSelectAll()}
             >

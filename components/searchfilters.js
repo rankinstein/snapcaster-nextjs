@@ -150,9 +150,8 @@ export default function SearchFilters() {
 
             <div className="flex flex-row space-x-2">
               <button
-                className="transition-all outline outline-2 -outline-offset-2 outline-purple-500 hover:bg-purple-500 hover:bg-opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto"
+                className="transition-all outline outline-2 -outline-offset-2 outline-purple-500 hover:bg-purple-500 hover:bg-opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-purple-900 focus:shadow-outline mt-4 mx-auto"
                 onClick={() => {
-                  console.log("Clear Filters");
                   resetFilters(store);
                 }}
               >
@@ -160,7 +159,7 @@ export default function SearchFilters() {
               </button>
 
               <button
-                className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto"
+                className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-purple-900 focus:shadow-outline mt-4 mx-auto"
                 onClick={() => {
                   console.log("Apply Filter");
                   console.log("store.conditions", store.conditions);

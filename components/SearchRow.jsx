@@ -68,7 +68,7 @@ export default function SearchRow({ cardData }) {
               <img
                 src={websiteLogos[cardData.website]}
                 alt="website logo"
-                className="mt-1 w-20 object-cover"
+                className="h-8 w-fit object-cover"
               />
               {/* <div className="text-sm">{cardData.website}</div> */}
             </div>
@@ -85,7 +85,7 @@ export default function SearchRow({ cardData }) {
                 <div className="text-sm font-bold">{cardData.condition}</div>
               </div>
               <button 
-              className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 "              onClick={handleClick}>
+              className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold p-1 px-2 sm:py-2 sm:px-4 rounded focus:outline-none focus:shadow-outline mt-4 "              onClick={handleClick}>
                 Buy
               </button>
             </div>
