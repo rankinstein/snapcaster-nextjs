@@ -132,7 +132,7 @@ const homePageStore = (set) => ({
   setShowFilters: (showFilters) => set({ showFilters }),
 });
 
-const multiSearchStore = (set) => ({
+const multiSearchStore = (set, get) => ({
   // a state that can either be for the search page or the results page
   mode: "search",
   // if mode is search, set mode to results
@@ -148,10 +148,62 @@ const multiSearchStore = (set) => ({
     });
   },
   updateSelectedVariant: (card, variant) => {
+    // 1. find "card" in results
+    // 2. in card.variants, find variant
+    // 3. set card.selectedVariant to variant in the results array
+    set((state) => {
+      const results = state.results.map((result) => {
+        if (result.cardName.toLowerCase() === card.cardName.toLowerCase()) {
+          result.selectedVariant = variant;
+        }
+        return result;
+      });
+      return { results };
+    });
+
+  },
+
+  sortVariants: (card, sortBy) => {
+    const conditionRanking = {
+      nm: 0,
+      lp: 1,
+      pl: 2,
+      mp: 3,
+      hp: 4,
+      dmg: 5,
+      scan: 6,
+    };
+
     set((state) => {
       const results = state.results.map((result) => {
         if (result.name === card.name) {
-          return { ...result, selectedVariant: variant };
+          // order selectedVariant by sortBy
+          result.variants.sort((a, b) => {
+            if (sortBy === "price") {
+              if (a.price < b.price) {
+                return -1;
+              } else if (a.price > b.price) {
+                return 1;
+              } else {
+                return 0;
+              }
+            } else if (sortBy === "condition") {
+              if (conditionRanking[a.condition.toLowerCase()] < conditionRanking[b.condition.toLowerCase()]) {
+                return -1;
+              } else if (
+                conditionRanking[a.condition.toLowerCase()] > conditionRanking[b.condition.toLowerCase()]
+              ) {
+                return 1;
+              }
+            } else if (sortBy === "website") {
+              if (a.website < b.website) {
+                return -1;
+              } else if (a.website > b.website) {
+                return 1;
+              }
+            }
+          });
+          return result;
         } else {
           return result;
         }
@@ -159,6 +211,9 @@ const multiSearchStore = (set) => ({
       return { results };
     });
   },
+
+
+
 
   handleSubmit: (e) => {
     set({ loading: true });
@@ -181,12 +236,35 @@ const multiSearchStore = (set) => ({
         set({ loading: false });
         set((state) => {
           const results = state.resultsRaw.map((result) => {
+            // order selectedVariant by price
+            result.variants.sort((a, b) => {
+              if (a.price < b.price) {
+                return -1;
+              } else if (a.price > b.price) {
+                return 1;
+              } else {
+                return 0;
+              }
+            });
+            // selectedVariant is the cheapest variant
             const selectedVariant = result.variants[0];
-            return { ...result, selectedVariant };
+            return { ...result, selectedVariant, selected: true };
           });
           return { results };
         });
       });
+  },
+  toggleSelectCard: (card) => {
+    set((state) => {
+      const results = state.results.map((result) => {
+        if (result.cardName === card.cardName) {
+          return { ...result, selected: !result.selected };
+        } else {
+          return result;
+        }
+      });
+      return { results };
+    });
   },
 
   searchQuery: "",
