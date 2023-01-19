@@ -7,7 +7,7 @@ export default function Multisearchbox() {
     <div className="flex flex-col w-full justify-center">
       <div className="my-3 w-full">
         <label
-          for="multisearchFormControlTextarea1"
+          htmlFor="multisearchFormControlTextarea1"
           className="font-bold form-label inline-block mb-2 text-white"
         >
           Card to search

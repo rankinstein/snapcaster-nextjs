@@ -19,6 +19,10 @@ const websites = [
     code: "connectiongames",
   },
   {
+    name: "Enter the Battlefield",
+    code: "enterthebattlefield",
+  },
+  {
     name: "Everything Games",
     code: "everythinggames",
   },
@@ -92,7 +96,7 @@ const websites = [
   },
   {
     name: "Wizard's Tower (kanatacg)",
-    code: "wizardstower",
+    code: "kanatacg",
   },
 ];
 
@@ -242,10 +246,22 @@ const multiSearchStore = (set, get) => ({
 
     cardNames.filter((cardName) => cardName !== "");
 
+    // we have an object, get().websites, that has the websites as keys and true/false as values
+    // we want an array of websites that are true
+    // array = ["houseofcards", "cardkingdom" ...]
+
+    let websiteArray = []
+    for (const [key, value] of Object.entries(get().websites)) {
+      if (value) {
+        websiteArray.push(key)
+      }
+    }
+
+
     axios
-      .post("api/multisearch/", {
+      .post("http://localhost:8000/search/bulk/", {
         cardNames: cardNames,
-        websites: ["aethervault", "atlas"],
+        websites: websiteArray,
         worstCondition: "NM",
       })
       .then((res) => {
@@ -346,13 +362,14 @@ const multiSearchStore = (set, get) => ({
     atlas: true,
     bordercity: true,
     connectiongames: true,
+    enterthebattlefield: true,
     everythinggames: true,
     exorgames: true,
     facetoface: true,
     fantasyforged: true,
     firstplayer: true,
     four01: true,
-    fusiongaming: true,
+    fusion: true,
     gameknight: true,
     gamezilla: true,
     gauntlet: true,
@@ -364,7 +381,7 @@ const multiSearchStore = (set, get) => ({
     orchardcity: true,
     sequencegaming: true,
     topdeckhero: true,
-    wizardstower: true,
+    kanatacg: true,
   },
   setWebsites: (websites) => set({ websites }),
   missingCards: [],
