@@ -24,7 +24,7 @@ export default function CardVariantSelector({ card }) {
         onClick={() => {
           setModalOpen(true);
         }}
-        className="m-2 p-2 rounded-md bg-purple-500 text-sm w-full"
+        className="m-2 p-2 rounded-md bg-purple-500 text-sm w-full transition-all hover:bg-purple-800"
       >
         Other results
       </button>
@@ -39,7 +39,9 @@ export default function CardVariantSelector({ card }) {
         >
           <div
             className="bg-slate-900 rounded-md pt-4 px-2 mx-1"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           >
             <div
               className="flex flex-row justify-between
@@ -104,16 +106,22 @@ export default function CardVariantSelector({ card }) {
                               ${variant.price}
                             </div>
                             <div className="">{variant.condition}</div>
-                            {variant.foil && <div 
-                            // put content centered vertically and horizontally
-                            className="rounded-xl px-2 bg-gradient-to-tr from-purple-600 to-yellow-500 flex justify-center items-center"
-                            >
-                             <div className="text-sm tracking-wide">Foil</div>
-                              </div>}
+                            {variant.foil && (
+                              <div
+                                // put content centered vertically and horizontally
+                                className="rounded-xl px-2 bg-gradient-to-tr from-purple-600 to-yellow-500 flex justify-center items-center"
+                              >
+                                <div className="text-sm tracking-wide">
+                                  Foil
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </div>
                         <div>
-                          <div className="text-gray-400">{fetchWebsiteName(variant.website)}</div>
+                          <div className="text-gray-400">
+                            {fetchWebsiteName(variant.website)}
+                          </div>
                         </div>
                       </div>
                     </div>

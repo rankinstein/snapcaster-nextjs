@@ -234,11 +234,47 @@ const multiSearchStore = (set, get) => ({
       return { results };
     });
   },
-
+  handleSelectAll: () => {
+    set((state) => {
+      // if all true already, set all to false
+      // if any false, set all to true
+      let allSelected = true;
+      state.results.forEach((result) => {
+        if (!result.selected) {
+          allSelected = false;
+        }
+      }
+      );
+      const results = state.results.map((result) => {
+        result.selected = !allSelected;
+        return result;
+      }
+      );
+      return { results };
+      
+    });
+    get().calculateTotalCost();
+  },
   handleSubmit: (e) => {
     set({ loading: true });
     // separate all the cards by newlines in the searchQuery
-    const cardNames = get().searchQuery.split(/\r?\n/);
+    const cardNames = get().searchQuery
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .filter((line, index, self) => self.indexOf(line) === index)
+    // replace quanitty numbers infront
+    .map(line => line.replace(/^\d+\s*/, ''))
+    .map(line => line.replace(/^\d+x\s*/, ''))
+    .map(line => line.replace(/’/g, "'"))
+    // if there are any single slashes like " / ", we'll replace them with " // "
+    .map(line => line.replace(/ \/ /g, ' // '))
+    // strip "*F*" off any lines that have it
+    .map(line => line.replace(/\*F\*/g, ''))
+    // strip each line
+    .map(line => line.trim())
+    .filter(line => line !== 'Sideboard')
+    .filter(line => line !== 'Deck');
     // remove empty strings and strip whitespace
     cardNames.forEach((cardName, index) => {
       cardNames[index] = cardName.trim();
@@ -301,7 +337,7 @@ const multiSearchStore = (set, get) => ({
             (cardName) =>
               !state.resultsRaw.some(
                 (result) =>
-                  result.cardName.toLowerCase() === cardName.toLowerCase()
+                  result.cardName.toLowerCase().replace(/[^a-z0-9]/gi, "") === cardName.toLowerCase().replace(/[^a-z0-9]/gi, "") 
               )
           );
               // remove any empty strings

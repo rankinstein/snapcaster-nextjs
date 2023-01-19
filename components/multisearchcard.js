@@ -28,8 +28,8 @@ export default function MultiSearchCard({ card }) {
     <div
       className={
         card.selected
-          ? "mt-6 p-3 bg-gray-900 hover:bg-gray-700 rounded-md my-2 outline outline-offset-2 outline-2 outline-purple-900 "
-          : "mt-6 p-3 bg-gray-800 hover:bg-gray-700 rounded-md my-2"
+          ? "transition-all mt-6 p-3 bg-gray-900 hover:bg-gray-700 rounded-md my-2 outline outline-offset-2 outline-2 outline-purple-900 "
+          : "transition-all mt-6 p-3 bg-gray-800 hover:bg-gray-700 rounded-md my-2"
       }
       onClick={() => {
         store.toggleSelectCard(card);
@@ -79,7 +79,7 @@ export default function MultiSearchCard({ card }) {
           <div className="flex-col">
             <CardVariantSelector card={card} />
             <button
-              className="m-2 p-2 rounded-md bg-purple-500 w-full text-sm"
+              className="transition-all m-2 p-2 rounded-md bg-purple-500 w-full text-sm hover:bg-purple-800"
               onClick={() => {
                 openWesbiteNewTab(selectedVariant.link);
               }}

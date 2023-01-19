@@ -27,7 +27,11 @@ export default function MultiSearchResultsInfo() {
           {store.results.filter((card) => card.selected === true).length}/
           {store.results.length} cards selected
         </div>
-        <div className="text-white">Total: ${store.totalCost}</div>
+        <button className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto" type="button" onClick={() => store.handleSelectAll()}>
+          Select All
+        </button>
+
+        <div className="text-white font-bold mt-2 text-xl">Total: ${store.totalCost.toFixed(2)}</div>
       </div>
     </div>
   );
