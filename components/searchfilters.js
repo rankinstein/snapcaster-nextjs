@@ -1,7 +1,6 @@
 import React from "react";
 import useStore from "@/store";
-
-export default function searchfilters() {
+export default function SearchFilters() {
   const { useHomePageStore } = useStore();
   const store = useHomePageStore();
   const conditionCheckboxes = [
