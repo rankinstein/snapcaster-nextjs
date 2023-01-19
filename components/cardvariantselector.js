@@ -10,14 +10,13 @@ export default function CardVariantSelector({ card }) {
   const fetchWebsiteName = (websiteCode) => {
     let website = store.websiteCodeMap.find(
       (website) => website.code === websiteCode.toLowerCase()
-    )
+    );
     if (website) {
       return website.name;
     } else {
       return websiteCode;
     }
   };
-
 
   return (
     <div>
@@ -85,7 +84,7 @@ export default function CardVariantSelector({ card }) {
                   return (
                     <div
                       key={index}
-                      className="flex flex-col space-y-1 my-2 p-2 text-center items-center justify-between bg-gray-800 hover:bg-gray-600 rounded"
+                      className="flex flex-row m-2 p-2 bg-gray-800 hover:bg-gray-600 rounded"
                       onClick={() => {
                         store.updateSelectedVariant(card, variant);
                         setModalOpen(false);
@@ -94,19 +93,29 @@ export default function CardVariantSelector({ card }) {
                       <img
                         src={variant.image}
                         alt={variant.name}
-                        className="w-32 rounded-md"
+                        className="w-24 rounded-md"
                       />
-                      <div className="font-bold text-lg">{variant.name}</div>
-                      <div className="text-sm">{variant.set}</div>
-                      <div className="flex flex-row space-x-4">
-                      <div className="text-lg font-bold">${variant.price}</div>
-                      <div>{variant.condition}</div>
-                      {variant.foil && <div>Foil</div>}
+                      {/* <div className="font-bold text-lg">{variant.name}</div> */}
+                      <div className="mt-2 ml-4">
+                        <div className="">
+                          <div className="text-sm">{variant.set}</div>
+                          <div className="flex flex-row space-x-4 text-left my-1">
+                            <div className="text-lg font-bold">
+                              ${variant.price}
+                            </div>
+                            <div className="">{variant.condition}</div>
+                            {variant.foil && <div 
+                            // put content centered vertically and horizontally
+                            className="rounded-xl px-2 bg-gradient-to-tr from-purple-600 to-yellow-500 flex justify-center items-center"
+                            >
+                             <div className="text-sm tracking-wide">Foil</div>
+                              </div>}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-gray-400">{fetchWebsiteName(variant.website)}</div>
+                        </div>
                       </div>
-                      <div>{fetchWebsiteName(variant.website)
-                      }</div>
-                 
-          
                     </div>
                   );
                 })}

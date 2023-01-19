@@ -12,10 +12,11 @@ export default function MultiSearchResultsInfo() {
         Total cost of selected */}
         {store.missingCards.length > 0 && (
           <div className="justify-center w-full">
+            <div className="bg-gray-900 rounded-md text-gray-400 p-3 flex flex-col space-y-1 max-w-sm mx-auto mb-2">
             <div className="text-white text-center">No results found for</div>
-            <div className="bg-gray-900 rounded-md text-gray-400 p-3 flex flex-col space-y-1">
+
               {store.missingCards.map((card) => (
-                <div className="flex flex-row justify-between">
+                <div className="">
                   <div>{card}</div>
                 </div>
               ))}
@@ -24,9 +25,9 @@ export default function MultiSearchResultsInfo() {
         )}
         <div className="text-white">
           {store.results.filter((card) => card.selected === true).length}/
-          {store.results.length} Cards selected
+          {store.results.length} cards selected
         </div>
-        <div className="text-white">Cost of selected: {store.totalCost}</div>
+        <div className="text-white">Total: ${store.totalCost}</div>
       </div>
     </div>
   );

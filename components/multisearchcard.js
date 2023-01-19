@@ -11,6 +11,17 @@ export default function MultiSearchCard({ card }) {
   const selectedVariant = store.results.find(
     (result) => JSON.stringify(result) === JSON.stringify(card)
   ).selectedVariant;
+
+  const fetchWebsiteName = (websiteCode) => {
+    let website = store.websiteCodeMap.find(
+      (website) => website.code === websiteCode.toLowerCase()
+    );
+    if (website) {
+      return website.name;
+    } else {
+      return websiteCode;
+    }
+  };
   // const selectedVariant = card.selectedVariant
   return (
     // if card.selected == true change bg color to red
@@ -29,16 +40,15 @@ export default function MultiSearchCard({ card }) {
           <img
             src={selectedVariant.image}
             alt={selectedVariant.name}
-            className="w-fit rounded-lg"
+            className="h-fit rounded-lg"
           />
         </div>
         <div className="col-span-7 flex flex-col text-left">
           <div className="text-md font-bold mt-2">{selectedVariant.name}</div>
           <div className="text-gray-400">
             {
-              store.websiteCodeMap.find(
-                (website) => website.code === selectedVariant.website
-              ).name
+              fetchWebsiteName(
+                selectedVariant.website)
             }
           </div>
           <div className="text-xl font-bold">${selectedVariant.price}</div>
@@ -69,7 +79,7 @@ export default function MultiSearchCard({ card }) {
           <div className="flex-col">
             <CardVariantSelector card={card} />
             <button
-              className="m-2 p-2 rounded-md bg-purple-500 w-full sm:w-1/2 text-sm"
+              className="m-2 p-2 rounded-md bg-purple-500 w-full text-sm"
               onClick={() => {
                 openWesbiteNewTab(selectedVariant.link);
               }}
