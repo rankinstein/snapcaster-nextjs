@@ -160,7 +160,22 @@ const multiSearchStore = (set, get) => ({
       });
       return { results };
     });
+    get().calculateTotalCost();
+  },
 
+  // total cost of all cards in results that have selected: true
+  totalCost: 0,
+  setTotalCost: (totalCost) => set({ totalCost }),
+  calculateTotalCost: () => {
+    set((state) => {
+      let totalCost = 0;
+      state.results.forEach((result) => {
+        if (result.selected) {
+          totalCost += parseFloat(result.selectedVariant.price);
+        }
+      });
+      return { totalCost };
+    });
   },
 
   sortVariants: (card, sortBy) => {
@@ -188,10 +203,14 @@ const multiSearchStore = (set, get) => ({
                 return 0;
               }
             } else if (sortBy === "condition") {
-              if (conditionRanking[a.condition.toLowerCase()] < conditionRanking[b.condition.toLowerCase()]) {
+              if (
+                conditionRanking[a.condition.toLowerCase()] <
+                conditionRanking[b.condition.toLowerCase()]
+              ) {
                 return -1;
               } else if (
-                conditionRanking[a.condition.toLowerCase()] > conditionRanking[b.condition.toLowerCase()]
+                conditionRanking[a.condition.toLowerCase()] >
+                conditionRanking[b.condition.toLowerCase()]
               ) {
                 return 1;
               }
@@ -211,9 +230,6 @@ const multiSearchStore = (set, get) => ({
       return { results };
     });
   },
-
-
-
 
   handleSubmit: (e) => {
     set({ loading: true });
@@ -252,6 +268,7 @@ const multiSearchStore = (set, get) => ({
           });
           return { results };
         });
+        get().calculateTotalCost();
       });
   },
   toggleSelectCard: (card) => {
@@ -265,8 +282,9 @@ const multiSearchStore = (set, get) => ({
       });
       return { results };
     });
+    get().calculateTotalCost();
   },
-
+  websiteCodeMap: websites,
   searchQuery: "",
   setSearchQuery: (searchQuery) => set({ searchQuery }),
   resultsRaw: [],

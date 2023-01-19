@@ -29,7 +29,7 @@ export default function Multisearch() {
           </div>
         )}
         {store.mode === "results" && (
-          <div className="flex-col items-center justify-center flex-1 text-center max-w-2xl">
+          <div className="flex-col w-full max-w-xl">
             <MultiSearchResults />
           </div>
         )}
