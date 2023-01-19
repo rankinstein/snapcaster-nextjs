@@ -15,8 +15,8 @@ export default function MultiSearchResultsInfo() {
             <div className="bg-gray-900 rounded-md text-gray-400 p-3 flex flex-col space-y-1 max-w-sm mx-auto mb-2">
             <div className="text-white text-center">No results found for</div>
 
-              {store.missingCards.map((card) => (
-                <div className="">
+              {store.missingCards.map((card, index) => (
+                <div key={index} className="">
                   <div>{card}</div>
                 </div>
               ))}

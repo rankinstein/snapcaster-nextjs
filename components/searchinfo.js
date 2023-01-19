@@ -10,11 +10,11 @@ export default function Searchinfo() {
     <div className="flex flex-col justify-center items-center w-full p-2">
       { resultsRaw.length != results.length ? (
         <p className="text-sm text-white">
-          Displaying {results.length} of {resultsRaw.length} results for "{searchQuery}"
+          Displaying {results.length} of {resultsRaw.length} results for &quot;{searchQuery}&quot;
         </p>
       ) : (
         <p className="text-sm text-white">
-          {results.length} results for "{searchQuery}"
+          {results.length} results for &quot;{searchQuery}&quot;
         </p>
       )}
     </div>
