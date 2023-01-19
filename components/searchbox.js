@@ -10,7 +10,7 @@ export default function Searchbox() {
     console.log("searching for: " + searchQuery);
     axios
       // fetch from vite env variable
-      .post(`http://localhost:8000/search/single/`, {
+      .post(`https://snapcasterv2-api-production.up.railway.app/search/single/`, {
         cardName: searchQuery,
         websites: ["all"],
       })
@@ -39,7 +39,13 @@ export default function Searchbox() {
             onChange={(e) => setSearchQuery(e.target.value)}
             spellCheck="false"
           />
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+            onClick={
+              (e) => {
+                handleSubmit(e);
+              }
+            }
+          >
             <svg
               width="14"
               height="14"

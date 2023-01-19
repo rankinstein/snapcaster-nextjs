@@ -302,7 +302,7 @@ const multiSearchStore = (set, get) => ({
 
 
     axios
-      .post("http://localhost:8000/search/bulk/", {
+      .post("https://snapcasterv2-api-production.up.railway.app/search/bulk/", {
         cardNames: cardNames,
         websites: websiteArray,
         worstCondition: "NM",
