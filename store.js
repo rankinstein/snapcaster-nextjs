@@ -44,7 +44,7 @@ const websites = [
   },
   {
     name: "Fusion Gaming",
-    code: "fusiongaming",
+    code: "fusion",
   },
   {
     name: "GameKnight",
@@ -233,10 +233,18 @@ const multiSearchStore = (set, get) => ({
 
   handleSubmit: (e) => {
     set({ loading: true });
-    console.log("handleSubmit");
+    // separate all the cards by newlines in the searchQuery
+    const cardNames = get().searchQuery.split(/\r?\n/);
+    // remove empty strings and strip whitespace
+    cardNames.forEach((cardName, index) => {
+      cardNames[index] = cardName.trim();
+    });
+
+    cardNames.filter((cardName) => cardName !== "");
+
     axios
       .post("api/multisearch/", {
-        cardNames: ["Lightning Bolt"],
+        cardNames: cardNames,
         websites: ["aethervault", "atlas"],
         worstCondition: "NM",
       })
@@ -269,8 +277,25 @@ const multiSearchStore = (set, get) => ({
           return { results };
         });
         get().calculateTotalCost();
+
+        // if there is a cardName in cardNames that is not in results, add it to missingCards
+        // we need to compare them without symbols or punctuation
+        set((state) => {
+          let missingCards = cardNames.filter(
+            (cardName) =>
+              !state.resultsRaw.some(
+                (result) =>
+                  result.cardName.toLowerCase() === cardName.toLowerCase()
+              )
+          );
+              // remove any empty strings
+              missingCards = missingCards.filter((missingCard) => missingCard !== "");
+          return { missingCards };
+        });
       });
   },
+  numResults: 0,
+  setNumSelectedCards: (numSelectedCards) => set({ numSelectedCards }),
   toggleSelectCard: (card) => {
     set((state) => {
       const results = state.results.map((result) => {
@@ -285,6 +310,17 @@ const multiSearchStore = (set, get) => ({
     get().calculateTotalCost();
   },
   websiteCodeMap: websites,
+  getWebsiteName: (websiteCode) => {
+    console.log("fetching website name for code: " + websiteCode);
+    let websiteCodeMap = get().websiteCodeMap;
+    console.log("iterating through websiteCodeMap");
+    for (let website in websiteCodeMap) {
+      console.log("website is " + website.name);
+    }
+    let result = get().websiteCodeMap[websiteCode];
+    console.log("results is " + result);
+    return result;
+  },
   searchQuery: "",
   setSearchQuery: (searchQuery) => set({ searchQuery }),
   resultsRaw: [],
@@ -331,6 +367,8 @@ const multiSearchStore = (set, get) => ({
     wizardstower: true,
   },
   setWebsites: (websites) => set({ websites }),
+  missingCards: [],
+  setMissingCards: (missingCards) => set({ missingCards }),
 });
 
 const useHomePageStore = create(homePageStore);

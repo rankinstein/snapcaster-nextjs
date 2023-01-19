@@ -55,7 +55,7 @@ export default function SearchRow({ cardData }) {
 
 
 
-                <Image
+                <img
                   src={websiteLogos[cardData.website]}
                   alt="website logo"
                   className="mt-1 w-12 md:w-20 object-cover" 

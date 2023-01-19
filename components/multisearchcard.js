@@ -3,6 +3,9 @@ import CardVariantSelector from "./cardvariantselector";
 import useStore from "@/store";
 
 export default function MultiSearchCard({ card }) {
+  const openWesbiteNewTab = (website) => {
+    window.open(website, "_blank");
+  };
   const { useMultiSearchStore } = useStore();
   const store = useMultiSearchStore();
   const selectedVariant = store.results.find(
@@ -21,51 +24,81 @@ export default function MultiSearchCard({ card }) {
         store.toggleSelectCard(card);
       }}
     >
-      <div className="grid grid-cols-2">
-        <div className="flex flex-col items-center">
+      <div className="grid grid-cols-12 space-x-8">
+        <div className="col-span-4 flex flex-col sm:items-center sm:justify-center">
           <img
             src={selectedVariant.image}
             alt={selectedVariant.name}
-            className="w-24"
+            className="w-fit rounded-lg"
           />
-          <div
-            className="text-md font-bold mt-2"
-          >{selectedVariant.name}</div>
         </div>
-        <div className="flex flex-col items-center">
-          <div className="text-xl font-bold">${selectedVariant.price}</div>
-          <div
-            // className={
-            //   selectedVariant.condition === "NM"
-            //     ? "text-green-500 font-bold text-lg"
-            //     : selectedVariant.condition === "LP" ||
-            //       selectedVariant.condition === "PL"
-            //     ? "text-yellow-500 font-bold text-lg"
-            //     : selectedVariant.condition === "MP"
-            //     ? "text-orange-500 font-bold text-lg"
-            //     : selectedVariant.condition === "HP" ||
-            //       selectedVariant.condition === "DMG"
-            //     ? "text-red-500 font-bold text-lg"
-            //     : "text-white font-bold text-lg"
-            // }
-            className="text-white font-bold text-lg"
-          >
-            {selectedVariant.condition}
-          </div>
-          {selectedVariant.foil && <div 
-          // gold foil text
-          className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-gray-300 to-gray-400"
-          >Foil</div>}
-          <div>
+        <div className="col-span-7 flex flex-col text-left">
+          <div className="text-md font-bold mt-2">{selectedVariant.name}</div>
+          <div className="text-gray-400">
             {
               store.websiteCodeMap.find(
                 (website) => website.code === selectedVariant.website
               ).name
             }
           </div>
-          <div className="my-auto"/>
-          <CardVariantSelector card={card} />
+          <div className="text-xl font-bold">${selectedVariant.price}</div>
+          <div className="text-white font-bold text-lg">
+            {selectedVariant.condition}
+          </div>
+          {selectedVariant.foil && (
+            <div
+              // gold foil text
+              className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-gray-300 to-gray-400"
+            >
+              Foil
+            </div>
+          )}
+
+          <div className="my-auto" />
+          {/* <div className="flex flex-col space-y-1">
+            <CardVariantSelector card={card} />
+            <button
+              className="m-2 p-2 rounded-md bg-purple-500 text-sm w-full"
+              onClick={() => {
+                openWesbiteNewTab(selectedVariant.link);
+              }}
+            >
+              Buy
+            </button>
+          </div> */}
+          <div className="flex-col">
+            <CardVariantSelector card={card} />
+            <button
+              className="m-2 p-2 rounded-md bg-purple-500 w-full sm:w-1/2 text-sm"
+              onClick={() => {
+                openWesbiteNewTab(selectedVariant.link);
+              }}
+            >
+              Buy
+            </button>
+          </div>
         </div>
+        <div className="col-span-1 flex flex-row items-top justify-end accent-purple-400">
+          <input
+            type="checkbox"
+            className="form-checkbox h-6 w-6 text-purple-600"
+            checked={card.selected}
+          />
+        </div>
+        {/* <div className="col-span-4 sm:hidden"></div>
+        <div className="col-span-7 sm:hidden">
+          <div className="flex flex-col space-y-1">
+            <CardVariantSelector card={card} />
+            <button
+              className="m-2 p-2 rounded-md bg-purple-500 text-sm w-full"
+              onClick={() => {
+                openWesbiteNewTab(selectedVariant.link);
+              }}
+            >
+              Buy
+            </button>
+          </div>
+        </div> */}
       </div>
     </div>
   );
