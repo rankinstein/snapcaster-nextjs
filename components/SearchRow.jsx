@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 
@@ -54,7 +55,7 @@ export default function SearchRow({ cardData }) {
 
 
 
-                <img
+                <Image
                   src={websiteLogos[cardData.website]}
                   alt="website logo"
                   className="mt-1 w-12 md:w-20 object-cover" 
