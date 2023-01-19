@@ -5,15 +5,36 @@ export default function MultiSearchResultsInfo() {
   const { useMultiSearchStore } = useStore();
   const store = useMultiSearchStore();
   return (
-    <div className="w-full bg-gray-800 rounded-sm p-4">
+    <div className="w-full bg-gray-900 rounded-sm p-4">
       <div className="flex flex-col justify-center items-center h-full">
-        {/* Found 2/4 Cards
-        0/2 Selected
-        Total cost of selected */}
+        {/* Buttons */}
+        <div className="flex flex-row justify-center space-x-2 mb-2">
+          {/* reset button */}
+          <div className="flex justify-center">
+            <button
+              className="transition-all outline outline-2 -outline-offset-2 outline-purple-500 hover:bg-purple-500 hover:bg-opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto"
+              type="button"
+              onClick={() => store.resetStore()}
+            >
+              Reset
+            </button>
+          </div>
+          <div className="flex justify-center">
+            <button
+              className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto"
+              type="button"
+              onClick={() => store.handleSelectAll()}
+            >
+              Select All
+            </button>
+          </div>
+        </div>
+
+        {/* Missing Cards */}
         {store.missingCards.length > 0 && (
           <div className="justify-center w-full">
-            <div className="bg-gray-900 rounded-md text-gray-400 p-3 flex flex-col space-y-1 max-w-sm mx-auto mb-2">
-            <div className="text-white text-center">No results found for</div>
+            <div className="bg-gray-800 rounded-md text-gray-400 p-3 flex flex-col space-y-1 max-w-sm mx-auto mb-2">
+              <div className="text-gray-300 text-center">No results found for</div>
 
               {store.missingCards.map((card, index) => (
                 <div key={index} className="">
@@ -23,15 +44,17 @@ export default function MultiSearchResultsInfo() {
             </div>
           </div>
         )}
+
+        {/* Num Selected Cards */}
         <div className="text-white">
           {store.results.filter((card) => card.selected === true).length}/
           {store.results.length} cards selected
         </div>
-        <button className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto" type="button" onClick={() => store.handleSelectAll()}>
-          Select All
-        </button>
 
-        <div className="text-white font-bold mt-2 text-xl">Total: ${store.totalCost.toFixed(2)}</div>
+        {/* Total cost of selected cards */}
+        <div className="text-white font-bold mt-2 text-xl">
+         ${store.totalCost.toFixed(2)}
+        </div>
       </div>
     </div>
   );

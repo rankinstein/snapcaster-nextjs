@@ -9,6 +9,7 @@ export default function MultiSearchResults() {
   return (
     <div>
       <MultiSearchResultsInfo />
+
       {store.results.map((result, index) => {
         return (
           <div key={index}>

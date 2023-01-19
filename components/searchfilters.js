@@ -71,8 +71,8 @@ export default function SearchFilters() {
       {/* div for filters should always render but not be visible unless showFilters is true */}
       <div
         className={`transition-all flex flex-col justify-center items-center w-full ${
-          store.showFilters ? "opacity-100 h-72" : "opacity-0 h-0"
-        } bg-gradient-to-b from-black to-slate-800 shadow-md rounded-sm`}
+          store.showFilters ? "opacity-100 h-80" : "opacity-0 h-0"
+        } bg-gradient-to-b from-black to-gray-900 shadow-md rounded-sm`}
       >
         {store.showFilters && (
           <>
@@ -149,28 +149,27 @@ export default function SearchFilters() {
             </div>
 
             <div className="flex flex-row space-x-2">
+              <button
+                className="transition-all outline outline-2 -outline-offset-2 outline-purple-500 hover:bg-purple-500 hover:bg-opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto"
+                onClick={() => {
+                  console.log("Clear Filters");
+                  resetFilters(store);
+                }}
+              >
+                Clear
+              </button>
 
-                    <button className="bg-gray-900 p-1 px-3 m-2 rounded-md text-white text-sm" onClick={() => {
-                        console.log("Clear Filters");
-                        resetFilters(store);
-                    }}>Clear</button>
-
-            <button
-              className="bg-gray-900 p-1 px-3 m-2 rounded-md text-white text-sm"
-              onClick={() => {
-                console.log("Apply Filter");
-                console.log("store.conditions", store.conditions);
-                applyFilters(store);
-              }}
-            >
-              Apply
-            </button>
-
-
+              <button
+                className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mx-auto"
+                onClick={() => {
+                  console.log("Apply Filter");
+                  console.log("store.conditions", store.conditions);
+                  applyFilters(store);
+                }}
+              >
+                Apply
+              </button>
             </div>
-
-
-
           </>
         )}
       </div>

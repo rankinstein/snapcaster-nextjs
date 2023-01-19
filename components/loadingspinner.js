@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Loadingspinner() {
   return (
-    <button type="button" className="bg-indigo-500 p-4 font-bold text-white rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 flex items-center">
+    <button type="button" className="bg-purple-500 p-4 font-bold text-white rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 flex items-center">
         <svg
             className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"

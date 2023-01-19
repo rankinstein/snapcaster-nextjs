@@ -100,6 +100,13 @@ const websites = [
   },
 ];
 
+const appStore = (set) => ({
+  // app wide state
+  mobileMenuOpen: false,
+  setMobileMenuOpen: (mobileMenuOpen) => set({ mobileMenuOpen }),
+  test: () => console.log("test"),
+});
+
 const homePageStore = (set) => ({
   resultsRaw: [],
   setResultsRaw: (resultsRaw) => set({ resultsRaw }),
@@ -251,7 +258,7 @@ const multiSearchStore = (set, get) => ({
       }
       );
       return { results };
-      
+
     });
     get().calculateTotalCost();
   },
@@ -422,10 +429,21 @@ const multiSearchStore = (set, get) => ({
   setWebsites: (websites) => set({ websites }),
   missingCards: [],
   setMissingCards: (missingCards) => set({ missingCards }),
+  resetStore: () => {
+    set({ resultsRaw: [] });
+    set({ results: [] });
+    set({ loading: false });
+    set({ cardNames: [] });
+    set({ missingCards: [] });
+    set({ mode: "search" });
+    set({ numSelectedCards: 0 });
+    set({ totalCost: 0 });
+  }
 });
 
 const useHomePageStore = create(homePageStore);
 const useMultiSearchStore = create(multiSearchStore);
+const useAppStore = create(appStore);
 export default function useStore() {
-  return { useHomePageStore, useMultiSearchStore };
+  return { useHomePageStore, useMultiSearchStore, useAppStore };
 }

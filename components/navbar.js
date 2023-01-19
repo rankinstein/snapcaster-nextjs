@@ -1,13 +1,15 @@
-import React from "react";
 import { useRouter } from "next/router";
 
+import { useState } from "react";
 export default function Navbar() {
   // get the current page from the url
   // set the current page to true
   // set all other pages to false
-
+  // const { useAppStore } = useStore();
+  // const store = useAppStore();
+  // store.test();
   const currentPath = useRouter().pathname;
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pages = [
     { name: "Home", href: "/", current: currentPath === "/" },
     // { name: "Stocks", href: "stocks", current: currentPath === "/stocks" },
@@ -31,6 +33,9 @@ export default function Navbar() {
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 aria-controls="mobile-menu"
                 aria-expanded="false"
+                onClick={() => {
+                  setMobileMenuOpen(!mobileMenuOpen);
+                }}
               >
                 <span className="sr-only">Open main menu</span>
                 {/* Icon when menu is closed. */}
@@ -104,6 +109,32 @@ ${
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+          {/*  mobile menu opens when mobileMenuOpen = true */}
+          <div
+            className={`${
+              mobileMenuOpen ? "block h-fit" : "hidden"
+            } sm:hidden`}
+            id="mobile-menu"
+          >
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {pages.map((page) => (
+                <a
+                  key={page.name}
+                  href={page.href}
+                  className={`
+text-white block rounded-md py-2 px-3 text-base font-medium hover:bg-gray-700
+${
+  page.current
+    ? "bg-gray-600 hover:bg-gray-500"
+    : page.name === "Stocks" && "bg-purple-900 hover:bg-purple-700"
+}
+`}
+                >
+                  {page.name}
+                </a>
+              ))}
             </div>
           </div>
         </div>

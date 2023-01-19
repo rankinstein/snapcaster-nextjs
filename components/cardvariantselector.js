@@ -38,7 +38,7 @@ export default function CardVariantSelector({ card }) {
           }}
         >
           <div
-            className="bg-slate-900 rounded-md pt-4 px-2 mx-1"
+            className="bg-gray-900 rounded-md pt-4 px-2 mx-1"
             onClick={(e) => {
               e.stopPropagation();
             }}
@@ -56,7 +56,7 @@ export default function CardVariantSelector({ card }) {
               >
                 <div className="font-bold font-md text-white">Sort by:</div>
                 <select
-                  className="m-2 p-2 rounded-md bg-slate-700"
+                  className="m-2 p-2 rounded-md bg-gray-700"
                   onChange={(e) => {
                     store.sortVariants(card, e.target.value);
                   }}
@@ -86,7 +86,7 @@ export default function CardVariantSelector({ card }) {
                   return (
                     <div
                       key={index}
-                      className="flex flex-row m-2 p-2 bg-gray-800 hover:bg-gray-600 rounded"
+                      className="flex flex-row m-2 p-2 bg-gray-700 hover:bg-gray-600 rounded"
                       onClick={() => {
                         store.updateSelectedVariant(card, variant);
                         setModalOpen(false);
@@ -105,7 +105,7 @@ export default function CardVariantSelector({ card }) {
                             <div className="text-lg font-bold">
                               ${variant.price}
                             </div>
-                            <div className="">{variant.condition}</div>
+                            <div className="text-lg">{variant.condition}</div>
                             {variant.foil && (
                               <div
                                 // put content centered vertically and horizontally

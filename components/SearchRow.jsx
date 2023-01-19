@@ -50,7 +50,7 @@ export default function SearchRow({ cardData }) {
   return (
     <>
       <>
-        <div className="grid grid-cols-12 gap-4 m-1 p-2 hover:backdrop-brightness-75 rounded-md transition-all bg-slate-700 hover:bg-slate-800">
+        <div className="grid grid-cols-12 gap-4 m-1 p-2 hover:backdrop-brightness-75 rounded-md transition-all bg-gray-700 hover:bg-gray-800">
           {/* center content vertically in thje column */}
           <div className="col-span-3 flex justify-center items-center">
             <img
@@ -84,7 +84,8 @@ export default function SearchRow({ cardData }) {
                 )}
                 <div className="text-sm font-bold">{cardData.condition}</div>
               </div>
-              <button className="px-4 py-1 bg-purple-600 rounded-md mt-2" onClick={handleClick}>
+              <button 
+              className="transition-all bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 "              onClick={handleClick}>
                 Buy
               </button>
             </div>
