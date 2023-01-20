@@ -125,7 +125,7 @@ const homePageStore = (set) => ({
   setSearchQuery: (searchQuery) => {
     set({ searchQuery });
     // if the searchQuery is longer than 3 and an odd number of characters, send a request to scryfall
-    if ( searchQuery.length > 2 && searchQuery.length % 2 === 1 ) {
+    if ( searchQuery.length < 17 && searchQuery.length > 2 && searchQuery.length % 2 === 1 ) {
       // if the axios request was sent in the last 500ms, cancel it
       // if (cancelToken) {
       //   cancelToken.cancel();
@@ -139,6 +139,9 @@ const homePageStore = (set) => ({
         .catch((err) => {
           console.log(err);
         });
+    }
+    else if ( searchQuery.length < 3 ) {
+      set({ showAutoComplete: false });
     }
   },
   foilOnly: false,
