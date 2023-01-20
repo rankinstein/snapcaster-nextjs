@@ -108,6 +108,9 @@ const appStore = (set) => ({
 });
 
 const homePageStore = (set) => ({
+  autoCompleteResults: [],
+  showAutoComplete: false,
+  setShowAutoComplete: (showAutoComplete) => set({ showAutoComplete }),
   resultsRaw: [],
   setResultsRaw: (resultsRaw) => set({ resultsRaw }),
   results: [],
@@ -118,7 +121,26 @@ const homePageStore = (set) => ({
   loading: false,
   setLoading: (loading) => set({ loading }),
   searchQuery: "",
-  setSearchQuery: (searchQuery) => set({ searchQuery }),
+  setOnlySearchQuery: (searchQuery) => set({ searchQuery }),
+  setSearchQuery: (searchQuery) => {
+    set({ searchQuery });
+    // if the searchQuery is longer than 3 and an odd number of characters, send a request to scryfall
+    if ( searchQuery.length > 2 && searchQuery.length % 2 === 1 ) {
+      // if the axios request was sent in the last 500ms, cancel it
+      // if (cancelToken) {
+      //   cancelToken.cancel();
+      // }
+      axios
+        .get(`https://api.scryfall.com/cards/autocomplete?q=${searchQuery}`)
+        .then((res) => {
+          set({ autoCompleteResults: res.data.data });
+          set({ showAutoComplete: true });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  },
   foilOnly: false,
   setFoilOnly: (foilOnly) => set({ foilOnly }),
   conditions: {
@@ -141,6 +163,8 @@ const homePageStore = (set) => ({
   setSortOrder: (sortOrder) => set({ sortOrder }),
   showFilters: false,
   setShowFilters: (showFilters) => set({ showFilters }),
+
+  //
 });
 
 const multiSearchStore = (set, get) => ({
@@ -460,7 +484,7 @@ const sealedSearchStore = (set, get) => ({
           resultsRaw: res.data.sort((a, b) => (a.price > b.price ? 1 : -1)),
         });
         set({ loading: false });
-        console.log("submitted")
+        console.log("submitted");
       });
   },
 });

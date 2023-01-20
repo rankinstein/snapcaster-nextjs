@@ -3,17 +3,20 @@ import useStore from "@/store";
 export default function Searchbox() {
   const { useHomePageStore } = useStore();
   const store = useHomePageStore();
-  const { searchQuery, setSearchQuery } = store;
+  const { searchQuery, setOnlySearchQuery, setSearchQuery } = store;
   const handleSubmit = (e) => {
     store.setLoading(true);
     e.preventDefault();
     console.log("searching for: " + searchQuery);
     axios
       // fetch from vite env variable
-      .post(`https://snapcasterv2-api-production.up.railway.app/search/single/`, {
-        cardName: searchQuery,
-        websites: ["all"],
-      })
+      .post(
+        `https://snapcasterv2-api-production.up.railway.app/search/single/`,
+        {
+          cardName: searchQuery,
+          websites: ["all"],
+        }
+      )
       .then((res) => {
         console.log(res.data);
         store.setResultsRaw(res.data);
@@ -39,12 +42,11 @@ export default function Searchbox() {
             onChange={(e) => setSearchQuery(e.target.value)}
             spellCheck="false"
           />
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
-            onClick={
-              (e) => {
-                handleSubmit(e);
-              }
-            }
+          <div
+            className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
           >
             <svg
               width="14"
@@ -62,6 +64,25 @@ export default function Searchbox() {
             </svg>
           </div>
         </form>
+        {/* Autocomplete results from store.autoCompleteResults */}
+        {store.showAutoComplete && (
+          <div className="absolute top-12 w-full bg-gray-800 rounded-md shadow-lg">
+            <ul className="divide-y divide-gray-700">
+              {store.autoCompleteResults.map((result) => (
+                <li
+                  key={result}
+                  className="px-3 py-3 cursor-pointer hover:bg-gray-700"
+                  onClick={() => {
+                    setOnlySearchQuery(result);
+                    store.setShowAutoComplete(false);
+                  }}
+                >
+                  <p className="text-sm text-gray-300">{result}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
