@@ -297,6 +297,9 @@ const multiSearchStore = (set, get) => ({
       .map((line) => line.trim())
       .filter((line) => line.length > 0)
       .filter((line, index, self) => self.indexOf(line) === index)
+      // remove anything inside parentheses
+      .map((line) => line.split("(")[0].trim())
+      .map((line) => line.replace(/\(.*?\)/g, ""))
       // replace quanitty numbers infront
       .map((line) => line.replace(/^\d+\s*/, ""))
       .map((line) => line.replace(/^\d+x\s*/, ""))
@@ -328,7 +331,7 @@ const multiSearchStore = (set, get) => ({
     }
 
     axios
-      .post("https://snapcasterv2-api-production.up.railway.app/search/bulk/", {
+      .post("http://localhost:8000/search/bulk/", {
         cardNames: cardNames,
         websites: websiteArray,
         worstCondition: "NM",
@@ -365,11 +368,26 @@ const multiSearchStore = (set, get) => ({
 
         // if there is a cardName in cardNames that is not in results, add it to missingCards
         // we need to compare them without symbols or punctuation
+        // # Remove any text in brackets, and the brackets themselves
+        // cardNames = [re.sub(r"^\d+\s*", "", cardName).strip() for cardName in cardNames]
+        // cardNames = [re.sub(r"\s*\([^)]*\)", "", cardName).strip() for cardName in cardNames]
+        // # remove any numbers from the end of the card name
+        // cardNames = [re.sub(r"\s*\d+$", "", cardName).strip() for cardName in cardNames]
+        // If there is a bracket ')' in the card name, remove everything after it
+        let cleanCardNames = cardNames.map((cardName) =>
+          cardName.split(")")[0].trim()
+        );
+        cleanCardNames = cardNames.map((cardName) =>
+          cardName.replace(/\s*\([^)]*\)/, "").replace(/\s*\d+$/, "").trim().toLowerCase()
+        );
+
         set((state) => {
-          let missingCards = cardNames.filter(
+          let missingCards = cleanCardNames.filter(
             (cardName) =>
               !state.resultsRaw.some(
                 (result) =>
+                // remove any numbers at the end of the card name
+                // remove any brackets and 
                   result.cardName.toLowerCase().replace(/[^a-z0-9]/gi, "") ===
                   cardName.toLowerCase().replace(/[^a-z0-9]/gi, "")
               )

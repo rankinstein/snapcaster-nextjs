@@ -10,7 +10,7 @@ export default function Searchbox() {
     e.preventDefault();
     axios
       .post(
-        `https://snapcasterv2-api-production.up.railway.app/search/single/`,
+        `http://localhost:8000/search/single/`,
         {
           cardName: searchQuery,
           websites: ["all"],
