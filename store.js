@@ -108,6 +108,9 @@ const appStore = (set) => ({
 });
 
 const homePageStore = (set) => ({
+  autoCompleteResults: [],
+  showAutoComplete: false,
+  setShowAutoComplete: (showAutoComplete) => set({ showAutoComplete }),
   resultsRaw: [],
   setResultsRaw: (resultsRaw) => set({ resultsRaw }),
   results: [],
@@ -118,7 +121,26 @@ const homePageStore = (set) => ({
   loading: false,
   setLoading: (loading) => set({ loading }),
   searchQuery: "",
-  setSearchQuery: (searchQuery) => set({ searchQuery }),
+  setOnlySearchQuery: (searchQuery) => set({ searchQuery }),
+  setSearchQuery: (searchQuery) => {
+    set({ searchQuery });
+    // if the searchQuery is longer than 3 and an odd number of characters, send a request to scryfall
+    if ( searchQuery.length > 2 && searchQuery.length % 2 === 1 ) {
+      // if the axios request was sent in the last 500ms, cancel it
+      // if (cancelToken) {
+      //   cancelToken.cancel();
+      // }
+      axios
+        .get(`https://api.scryfall.com/cards/autocomplete?q=${searchQuery}`)
+        .then((res) => {
+          set({ autoCompleteResults: res.data.data });
+          set({ showAutoComplete: true });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  },
   foilOnly: false,
   setFoilOnly: (foilOnly) => set({ foilOnly }),
   conditions: {
@@ -141,6 +163,8 @@ const homePageStore = (set) => ({
   setSortOrder: (sortOrder) => set({ sortOrder }),
   showFilters: false,
   setShowFilters: (showFilters) => set({ showFilters }),
+
+  //
 });
 
 const multiSearchStore = (set, get) => ({
@@ -250,38 +274,35 @@ const multiSearchStore = (set, get) => ({
         if (!result.selected) {
           allSelected = false;
         }
-      }
-      );
+      });
       const results = state.results.map((result) => {
         result.selected = !allSelected;
         return result;
-      }
-      );
+      });
       return { results };
-
     });
     get().calculateTotalCost();
   },
   handleSubmit: (e) => {
     set({ loading: true });
     // separate all the cards by newlines in the searchQuery
-    const cardNames = get().searchQuery
-    .split('\n')
-    .map(line => line.trim())
-    .filter(line => line.length > 0)
-    .filter((line, index, self) => self.indexOf(line) === index)
-    // replace quanitty numbers infront
-    .map(line => line.replace(/^\d+\s*/, ''))
-    .map(line => line.replace(/^\d+x\s*/, ''))
-    .map(line => line.replace(/’/g, "'"))
-    // if there are any single slashes like " / ", we'll replace them with " // "
-    .map(line => line.replace(/ \/ /g, ' // '))
-    // strip "*F*" off any lines that have it
-    .map(line => line.replace(/\*F\*/g, ''))
-    // strip each line
-    .map(line => line.trim())
-    .filter(line => line !== 'Sideboard')
-    .filter(line => line !== 'Deck');
+    const cardNames = get()
+      .searchQuery.split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0)
+      .filter((line, index, self) => self.indexOf(line) === index)
+      // replace quanitty numbers infront
+      .map((line) => line.replace(/^\d+\s*/, ""))
+      .map((line) => line.replace(/^\d+x\s*/, ""))
+      .map((line) => line.replace(/’/g, "'"))
+      // if there are any single slashes like " / ", we'll replace them with " // "
+      .map((line) => line.replace(/ \/ /g, " // "))
+      // strip "*F*" off any lines that have it
+      .map((line) => line.replace(/\*F\*/g, ""))
+      // strip each line
+      .map((line) => line.trim())
+      .filter((line) => line !== "Sideboard")
+      .filter((line) => line !== "Deck");
     // remove empty strings and strip whitespace
     cardNames.forEach((cardName, index) => {
       cardNames[index] = cardName.trim();
@@ -293,13 +314,12 @@ const multiSearchStore = (set, get) => ({
     // we want an array of websites that are true
     // array = ["houseofcards", "cardkingdom" ...]
 
-    let websiteArray = []
+    let websiteArray = [];
     for (const [key, value] of Object.entries(get().websites)) {
       if (value) {
-        websiteArray.push(key)
+        websiteArray.push(key);
       }
     }
-
 
     axios
       .post("https://snapcasterv2-api-production.up.railway.app/search/bulk/", {
@@ -344,11 +364,14 @@ const multiSearchStore = (set, get) => ({
             (cardName) =>
               !state.resultsRaw.some(
                 (result) =>
-                  result.cardName.toLowerCase().replace(/[^a-z0-9]/gi, "") === cardName.toLowerCase().replace(/[^a-z0-9]/gi, "") 
+                  result.cardName.toLowerCase().replace(/[^a-z0-9]/gi, "") ===
+                  cardName.toLowerCase().replace(/[^a-z0-9]/gi, "")
               )
           );
-              // remove any empty strings
-              missingCards = missingCards.filter((missingCard) => missingCard !== "");
+          // remove any empty strings
+          missingCards = missingCards.filter(
+            (missingCard) => missingCard !== ""
+          );
           return { missingCards };
         });
       });
@@ -438,12 +461,43 @@ const multiSearchStore = (set, get) => ({
     set({ mode: "search" });
     set({ numSelectedCards: 0 });
     set({ totalCost: 0 });
-  }
+  },
+});
+
+const sealedSearchStore = (set, get) => ({
+  searchQuery: "",
+  resultsRaw: [],
+  results: [],
+  loading: false,
+  websites: ["all"],
+
+  handleSubmit: (e) => {
+    e.preventDefault();
+    set({ loading: true });
+    axios
+      .post("api/sealedsearch/", {
+        setName: get().searchQuery,
+        websites: get().websites,
+      })
+      .then((res) => {
+        set({
+          resultsRaw: res.data.sort((a, b) => (a.price > b.price ? 1 : -1)),
+        });
+        set({ loading: false });
+        console.log("submitted");
+      });
+  },
 });
 
 const useHomePageStore = create(homePageStore);
 const useMultiSearchStore = create(multiSearchStore);
 const useAppStore = create(appStore);
+const useSealedSearchStore = create(sealedSearchStore);
 export default function useStore() {
-  return { useHomePageStore, useMultiSearchStore, useAppStore };
+  return {
+    useHomePageStore,
+    useMultiSearchStore,
+    useAppStore,
+    useSealedSearchStore,
+  };
 }

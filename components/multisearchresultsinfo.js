@@ -39,7 +39,6 @@ export default function MultiSearchResultsInfo() {
           </div>
         )}
 
-        {/* center items vertically */}
         <div className="flex flex-row space-x-2 justify-center items-center">
           {/* Total cost of selected cards */}
           <div className="text-white font-bold text-xl">

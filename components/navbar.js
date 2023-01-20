@@ -18,7 +18,7 @@ export default function Navbar() {
       href: "multisearch",
       current: currentPath === "/multisearch",
     },
-    { name: "Sealed", href: "sealed", current: currentPath === "/sealed" },
+    // { name: "Sealed", href: "sealed", current: currentPath === "/sealed" },
     { name: "About", href: "about", current: currentPath === "/about" },
   ];
   return (
