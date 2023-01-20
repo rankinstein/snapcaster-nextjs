@@ -9,7 +9,6 @@ export default function Searchbox() {
     e.preventDefault();
     console.log("searching for: " + searchQuery);
     axios
-      // fetch from vite env variable
       .post(
         `https://snapcasterv2-api-production.up.railway.app/search/single/`,
         {
