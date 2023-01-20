@@ -5,6 +5,7 @@ export default function Searchbox() {
   const store = useHomePageStore();
   const { searchQuery, setOnlySearchQuery, setSearchQuery } = store;
   const handleSubmit = (e) => {
+    store.setShowAutoComplete(false);
     store.setLoading(true);
     e.preventDefault();
     axios
