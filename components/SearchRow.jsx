@@ -64,13 +64,14 @@ export default function SearchRow({ cardData }) {
               <div className="text-md font-bold">{cardData.name}</div>
               <div className="text-sm">{cardData.set}</div>
               {/* match cardData.website to it's websiteLogo from the map */}
-
+              <div className="h-8">
               <img
                 src={websiteLogos[cardData.website]}
                 alt="website logo"
-                className="h-8 w-fit object-cover"
+                className="h-8 sm:h-12 md:h-16 object-contain"
               />
               {/* <div className="text-sm">{cardData.website}</div> */}
+              </div>
             </div>
           </div>
           <div className="col-span-4 mt-2">
