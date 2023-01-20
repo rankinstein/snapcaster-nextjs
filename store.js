@@ -121,6 +121,8 @@ const homePageStore = (set) => ({
   loading: false,
   setLoading: (loading) => set({ loading }),
   searchQuery: "",
+  searchedQuery: "",
+  setSearchedQuery: (searchedQuery) => set({ searchedQuery }),
   setOnlySearchQuery: (searchQuery) => set({ searchQuery }),
   setSearchQuery: (searchQuery) => {
     set({ searchQuery });

@@ -21,6 +21,7 @@ export default function Searchbox() {
         store.setResults(res.data);
         store.setLoading(false);
         store.setShowBanner(false);
+        store.setSearchedQuery(searchQuery);
       });
   };
 
@@ -63,8 +64,13 @@ export default function Searchbox() {
           </div>
         </form>
         {/* Autocomplete results from store.autoCompleteResults */}
+        {/* when clicking anywhere outside the autocomplete, set showAutoComplete to false */}
         {store.showAutoComplete && (
-          <div className="absolute top-12 w-full bg-gray-800 rounded-md shadow-lg">
+          <div className="absolute top-12 w-full bg-gray-800 rounded-md shadow-lg"
+            onClick={() => {
+              store.setShowAutoComplete(false);
+            }}
+          >
             <ul className="divide-y divide-gray-700">
               {store.autoCompleteResults.map((result) => (
                 <li

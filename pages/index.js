@@ -26,12 +26,17 @@ export default function Home() {
       <main className="flex flex-col justify-between items-center p-8 min-h-screen">
         {/* We want Homebanner and Searchbox components to fade out to 0 opacity and then fade in CatalogView component */}
         {/* This happens when loading is set to false */}
-        <div className="flex-col justify-center flex-1 text-center max-w-xl w-full">
+        <div className="flex-col justify-center flex-1 text-center max-w-xl w-full"
+          // close autocomplete when clicking outside of the searchbox
+          onClick={() => {
+            store.setShowAutoComplete(false);
+          }}
+        >
           {store.showBanner && (
-            <>
+            <div>
               <Homebanner />
               <Searchbox />
-            </>
+            </div>
           )}
           {store.loading && (
             <div className="flex justify-center items-center pt-5">
