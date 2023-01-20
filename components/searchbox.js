@@ -7,7 +7,6 @@ export default function Searchbox() {
   const handleSubmit = (e) => {
     store.setLoading(true);
     e.preventDefault();
-    console.log("searching for: " + searchQuery);
     axios
       .post(
         `https://snapcasterv2-api-production.up.railway.app/search/single/`,
@@ -17,7 +16,6 @@ export default function Searchbox() {
         }
       )
       .then((res) => {
-        console.log(res.data);
         store.setResultsRaw(res.data);
         store.setResults(res.data);
         store.setLoading(false);

@@ -22,8 +22,8 @@ export default function Sealed() {
       return 0;
     });
     // setSets(setsArray);
-    console.log("Number of sets: " + setsArray.length);
-    console.log(setsArray);
+    // console.log("Number of sets: " + setsArray.length);
+    // console.log(setsArray);
   });
 
 
