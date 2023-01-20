@@ -133,7 +133,8 @@ const homePageStore = (set) => ({
       axios
         .get(`https://api.scryfall.com/cards/autocomplete?q=${searchQuery}`)
         .then((res) => {
-          set({ autoCompleteResults: res.data.data });
+          // set autoCompleteResults to the first 5 items in res.data.data
+          set({ autoCompleteResults: res.data.data.slice(0, 5) });
           set({ showAutoComplete: true });
         })
         .catch((err) => {
