@@ -18,7 +18,12 @@ export default function Searchbox() {
       )
       .then((res) => {
         store.setResultsRaw(res.data);
-        store.setResults(res.data);
+        store.setResults(
+          res.data.sort((a, b) => {
+            return a.price - b.price;
+          })
+          
+          );
         store.setLoading(false);
         store.setShowBanner(false);
         store.setSearchedQuery(searchQuery);

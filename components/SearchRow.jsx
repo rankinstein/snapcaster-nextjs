@@ -68,7 +68,7 @@ export default function SearchRow({ cardData }) {
               <img
                 src={websiteLogos[cardData.website]}
                 alt="website logo"
-                className="h-8 sm:h-12 md:h-16 object-contain"
+                className="h-8 sm:h-12 object-contain"
               />
               {/* <div className="text-sm">{cardData.website}</div> */}
               </div>
