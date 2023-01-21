@@ -1,6 +1,47 @@
 import { create } from "zustand";
 import axios from "axios";
 
+const websiteLogos = {
+  gauntlet:
+    "http://cc-client-assets.s3.amazonaws.com/store/gauntletgamesvictoria/7c8176e703db451bad3277bb6d4b8631/medium/Transparent_logo.png",
+  houseOfCards: "https://i.ibb.co/qnytc5Q/house-of-cards-logo.png",
+  kanatacg: "https://i.ibb.co/hm3qKWc/wizardstower-removebg-preview.png",
+  fusion: "https://i.ibb.co/GkKmry9/fusiongaminglogo.png",
+  four01: "https://i.ibb.co/h9x3Ksb/401games.png",
+  everythinggames:
+    "https://cdn.shopify.com/s/files/1/0618/8905/2856/files/Header_76747500-dd40-4d94-8016-a1d21282e094_large.png?v=1650298823",
+  magicstronghold:
+    "https://magicstronghold-images.s3.amazonaws.com/customizations/logo.png",
+  facetoface: "https://i.ibb.co/W2bPWdK/logo-colored-1.png",
+  connectiongames: "https://i.ibb.co/Qp1kqrB/connectiongames-inverted.png",
+  topdeckhero:
+    "https://d1rw89lz12ur5s.cloudfront.net/store/topdeckhero/1fdf9e60cbd911e7aefa7116e0c551f9/large/topdeckhero.png",
+  jeux3dragons:
+    "https://d1rw89lz12ur5s.cloudfront.net/store/jeux3dragons/ef00baaca6ad43cfb51939c1af74c2c7/large/logo.png",
+  sequencegaming: "https://i.ibb.co/C2jXrmD/sequence-no-bg-inverted.png",
+  atlas:
+    "https://d1rw89lz12ur5s.cloudfront.net/store/atlascollectables/a9e1fed8d2d549cba92c6406b18f8969/large/logo-v2-small-v2.png",
+  hairyt:
+    "https://cdn.shopify.com/s/files/1/0266/9513/9533/files/hariyt-horizontal-logo.png?v=1615403256",
+  gamezilla:
+    "https://cdn.shopify.com/s/files/1/0570/6308/0145/files/Screen_Shot_2018-09-07_at_1.02.57_PM_copy_141x.png?v=1626814255",
+  exorgames:
+    "https://cdn.shopify.com/s/files/1/0467/3083/8169/files/Untitled-2-01.png?v=1613706669",
+  gameknight:
+    "https://cdn.shopify.com/s/files/1/0367/8204/7276/files/GK-Logo-Full-Text-Below-1-768x603.png?v=1618430878",
+  enterthebattlefield: "https://i.ibb.co/hdnH9fY/enterthebattlefield.png",
+  manaforce:
+    "https://d1rw89lz12ur5s.cloudfront.net/store/manaforce/e58b802e2e334d17aacfbf9954a5400e/large/manaforce%20logo%20attempt%204.png",
+  firstplayer:
+    "https://d1rw89lz12ur5s.cloudfront.net/store/firstplayer/ab9075a71d2949aa8dd1e032f54cf7d8/large/g901%20medium.png",
+  orchardcity:
+    "https://d1rw89lz12ur5s.cloudfront.net/store/orchardcitygames/eb6cb32f84b34b5cbb1c025fc41c9821/large/logo_v1.png",
+  bordercity:
+    "https://i.ibb.co/cvNCbXx/Border-City-Games-Large-85873391-3559-47f7-939a-420461a0033f-201x-removebg-preview.png",
+  aethervault:
+    "https://d1rw89lz12ur5s.cloudfront.net/store/aethervaultgames/baa99644755e44c2a11d7bc20494e7b0/large/AetherVaultGames.png",
+};
+
 const websites = [
   {
     name: "Aether Vault Games",
@@ -127,7 +168,11 @@ const homePageStore = (set) => ({
   setSearchQuery: (searchQuery) => {
     set({ searchQuery });
     // if the searchQuery is longer than 3 and an odd number of characters, send a request to scryfall
-    if ( searchQuery.length < 17 && searchQuery.length > 2 && searchQuery.length % 2 === 1 ) {
+    if (
+      searchQuery.length < 17 &&
+      searchQuery.length > 2 &&
+      searchQuery.length % 2 === 1
+    ) {
       // if the axios request was sent in the last 500ms, cancel it
       // if (cancelToken) {
       //   cancelToken.cancel();
@@ -142,8 +187,7 @@ const homePageStore = (set) => ({
         .catch((err) => {
           console.log(err);
         });
-    }
-    else if ( searchQuery.length < 3 ) {
+    } else if (searchQuery.length < 3) {
       set({ showAutoComplete: false });
     }
   },
@@ -378,7 +422,11 @@ const multiSearchStore = (set, get) => ({
           cardName.split(")")[0].trim()
         );
         cleanCardNames = cardNames.map((cardName) =>
-          cardName.replace(/\s*\([^)]*\)/, "").replace(/\s*\d+$/, "").trim().toLowerCase()
+          cardName
+            .replace(/\s*\([^)]*\)/, "")
+            .replace(/\s*\d+$/, "")
+            .trim()
+            .toLowerCase()
         );
 
         set((state) => {
@@ -386,8 +434,8 @@ const multiSearchStore = (set, get) => ({
             (cardName) =>
               !state.resultsRaw.some(
                 (result) =>
-                // remove any numbers at the end of the card name
-                // remove any brackets and 
+                  // remove any numbers at the end of the card name
+                  // remove any brackets and
                   result.cardName.toLowerCase().replace(/[^a-z0-9]/gi, "") ===
                   cardName.toLowerCase().replace(/[^a-z0-9]/gi, "")
               )
@@ -494,6 +542,38 @@ const sealedSearchStore = (set, get) => ({
   results: [],
   loading: false,
   websites: ["all"],
+  showAutoComplete: true,
+  autoCompleteResults: [],
+  showBanner: true,
+  websiteLogos: websiteLogos,
+
+  setSearchQuery: (searchQuery) => {
+    set({ searchQuery });
+    if (searchQuery.length > 1) {
+      get().fetchAutoCompleteResults(searchQuery);
+      set({ showAutoComplete: true });
+    } else {
+      set({ showAutoComplete: false });
+    }
+  },
+  setOnlySearchQuery: (searchQuery) => {
+    set({ searchQuery });
+  },
+  fetchAutoCompleteResults: (searchQuery) => {
+    axios
+      .get(`http://localhost:8000/utils/autocomplete/${searchQuery}`)
+      .then((res) => {
+        set({ autoCompleteResults: res.data.slice(0, 5) });
+      });
+  },
+  setResultsRaw: (resultsRaw) => {
+    set({ resultsRaw });
+  },
+  setResults: (results) => set({ results }),
+  setLoading: (loading) => set({ loading }),
+  setWebsites: (websites) => set({ websites }),
+  setShowAutoComplete: (showAutoComplete) => set({ showAutoComplete }),
+  setShowBanner: (showBanner) => set({ showBanner }),
 
   handleSubmit: (e) => {
     e.preventDefault();
@@ -508,7 +588,9 @@ const sealedSearchStore = (set, get) => ({
           resultsRaw: res.data.sort((a, b) => (a.price > b.price ? 1 : -1)),
         });
         set({ loading: false });
-        console.log("submitted");
+        set({ showAutoComplete: false });
+        set({ showBanner: false });
+
       });
   },
 });

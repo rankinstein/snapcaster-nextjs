@@ -2,9 +2,14 @@ import useStore from "@/store";
 export default function SealedSearchBox() {
     const { useSealedSearchStore } = useStore();
     const store = useSealedSearchStore();
+    const handleChange = (e) => {
+        store.setSearchQuery(e.target.value);
+    };
+
   return (
     <div className="mt-6">
       <div className="relative">
+
         <form
           onSubmit={(e) => {
             store.handleSubmit(e);
@@ -14,8 +19,11 @@ export default function SealedSearchBox() {
             type="text"
             className="block w-full px-4 py-2 text-white placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
             placeholder="Search"
-            // value={searchQuery}
+            value={store.searchQuery}
             // onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              handleChange(e);
+            }}
             spellCheck="false"
           />
           <div
@@ -40,6 +48,28 @@ export default function SealedSearchBox() {
             </svg>
           </div>
         </form>
+        {store.showAutoComplete && (
+                <div className="absolute top-12 w-full bg-gray-800 rounded-md shadow-lg"
+                onClick={() => {
+                  store.setShowAutoComplete(false);
+                }}
+              >
+                <ul className="divide-y divide-gray-700">
+                  {store.autoCompleteResults.map((result) => (
+                    <li
+                      key={result}
+                      className="px-3 py-3 cursor-pointer hover:bg-gray-700"
+                      onClick={() => {
+                        store.setOnlySearchQuery(result);
+                        store.setShowAutoComplete(false);
+                      }}
+                    >
+                      <p className="text-sm text-gray-300">{result}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+        )}
       </div>
     </div>
   );
