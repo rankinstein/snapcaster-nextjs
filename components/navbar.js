@@ -12,7 +12,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pages = [
     { name: "Home", href: "/", current: currentPath === "/" },
-    // { name: "Stocks", href: "stocks", current: currentPath === "/stocks" },
+    { name: "Stocks", href: "stocks", current: currentPath === "/stocks" },
     {
       name: "Multi-search",
       href: "multisearch",
