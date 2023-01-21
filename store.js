@@ -562,7 +562,8 @@ const sealedSearchStore = (set, get) => ({
   },
   fetchAutoCompleteResults: (searchQuery) => {
     axios
-      .get(`https://snapcasterv2-api-production.up.railway.app/utils/autocomplete/${searchQuery}`)
+    // https://snapcasterv2-api-production.up.railway.app/search/bulk/
+      .get(`https://snapcasterv2-api-production.up.railway.app/utils/autocomplete/${searchQuery}/`)
       .then((res) => {
         set({ autoCompleteResults: res.data.slice(0, 5) });
       });
