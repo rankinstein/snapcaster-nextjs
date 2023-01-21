@@ -5,7 +5,7 @@ export default function Multisearchbox() {
 
   return (
     <div className="flex flex-col w-full justify-center">
-      <div className="my-3 w-full">
+      <div className="mt-3 w-full">
         <label
           htmlFor="multisearchFormControlTextarea1"
           className="font-bold form-label inline-block mb-2 text-white"

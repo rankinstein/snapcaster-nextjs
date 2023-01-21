@@ -547,6 +547,158 @@ const sealedSearchStore = (set, get) => ({
   autoCompleteResults: [],
   showBanner: true,
   websiteLogos: websiteLogos,
+  sortOrder: "asc",
+  sortBy: "price",
+  filterTags: [
+    {
+      name: "pack",
+      displayName: "Pack",
+      selected: true,
+    },
+    {
+      name: "draft",
+      displayName: "Draft",
+      selected: true,
+    },
+    {
+      name: "jumpstart",
+      displayName: "Jumpstart",
+      selected: true,
+    },
+    {
+      name: "set",
+      displayName: "Set",
+      selected: true,
+    },
+    {
+      name: "collector",
+      displayName: "Collector",
+      selected: true,
+    },
+    {
+      name: "bundle",
+      displayName: "Bundle",
+      selected: true,
+    },
+    {
+      name: "box",
+      displayName: "Box",
+      selected: true,
+    },
+  ],
+
+  filterResults: () => {
+    set((state) => {
+      let filteredResults = state.resultsRaw;
+      let selectedTags = state.filterTags.filter((tag) => tag.selected);
+      if (selectedTags.length > 0) {
+        filteredResults = state.resultsRaw.filter((result) =>
+          selectedTags.some((tag) => result.tags.includes(tag.name))
+        );
+      }
+      return { results: filteredResults };
+    });
+  },
+  
+  toggleFilterTag: (tag) => {
+    // toggle the selected field of the tag
+    // update the selectedTags array
+    set((state) => {
+      const filterTags = state.filterTags.map((filterTag) => {
+        if (filterTag.name === tag.name) {
+          return { ...filterTag, selected: !filterTag.selected };
+        } else {
+          return filterTag;
+        }
+      });
+      return { filterTags };
+    }
+    );
+    get().filterResults();
+  },
+  sortResults: () => {
+    set((state) => {
+      let sortBy = get().sortBy;
+      let sortOrder = get().sortOrder;
+      if (sortBy === "price") {
+        get().setResults(
+          get().results.sort((a, b) => {
+            if (sortOrder === "asc") {
+              return a.price - b.price;
+            } else {
+              return b.price - a.price;
+            }
+          })
+        );
+      } else if (sortBy === "website") {
+        get().setResults(
+          get().results.sort((a, b) => {
+            if (sortOrder === "asc") {
+              return a.website.localeCompare(b.website);
+            } else {
+              return b.website.localeCompare(a.website);
+            }
+          })
+        );
+      }
+    });
+  },
+
+
+
+  setSortBy: (sortBy) => {
+    set({ sortBy });
+    // either price or website. Sort results by price or website
+    let sortOrder = get().sortOrder;
+    if (sortBy === "price") {
+      get().setResults(
+        get().results.sort((a, b) => {
+          if (sortOrder === "asc") {
+            return a.price - b.price;
+          } else {
+            return b.price - a.price;
+          }
+        })
+      );
+    } else if (sortBy === "website") {
+      get().setResults(
+        get().results.sort((a, b) => {
+          if (sortOrder === "asc") {
+            return a.website.localeCompare(b.website);
+          } else {
+            return b.website.localeCompare(a.website);
+          }
+        })
+      );
+    }
+  },
+
+  setSortOrder: (sortOrder) => {
+    set({ sortOrder });
+    // either asc or desc
+    let sortBy = get().sortBy;
+    if (sortBy === "price") {
+      get().setResults(
+        get().results.sort((a, b) => {
+          if (sortOrder === "asc") {
+            return a.price - b.price;
+          } else {
+            return b.price - a.price;
+          }
+        })
+      );
+    } else if (sortBy === "website") {
+      get().setResults(
+        get().results.sort((a, b) => {
+          if (sortOrder === "asc") {
+            return a.website.localeCompare(b.website);
+          } else {
+            return b.website.localeCompare(a.website);
+          }
+        })
+      );
+    }
+  },
 
   setSearchQuery: (searchQuery) => {
     set({ searchQuery });
@@ -562,8 +714,10 @@ const sealedSearchStore = (set, get) => ({
   },
   fetchAutoCompleteResults: (searchQuery) => {
     axios
-    // https://snapcasterv2-api-production.up.railway.app/search/bulk/
-      .get(`https://snapcasterv2-api-production.up.railway.app/utils/autocomplete/${searchQuery}/`)
+      // https://snapcasterv2-api-production.up.railway.app/search/bulk/
+      .get(
+        `https://snapcasterv2-api-production.up.railway.app/utils/autocomplete/${searchQuery}/`
+      )
       .then((res) => {
         set({ autoCompleteResults: res.data.slice(0, 5) });
       });
@@ -581,7 +735,7 @@ const sealedSearchStore = (set, get) => ({
     e.preventDefault();
     set({ loading: true });
     axios
-      .post("api/sealedsearch/", {
+      .post("https://snapcasterv2-api-production.up.railway.app/search/sealed/", {
         setName: get().searchQuery,
         websites: get().websites,
       })
@@ -594,7 +748,6 @@ const sealedSearchStore = (set, get) => ({
         set({ searchedQuery: get().searchQuery });
         set({ showAutoComplete: false });
         set({ showBanner: false });
-
       });
   },
 });

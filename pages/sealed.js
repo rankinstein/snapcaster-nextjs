@@ -5,6 +5,7 @@ import axios from "axios";
 import Loadingspinner from "@/components/loadingspinner";
 import SealedProductRow from "@/components/sealedproductrow";
 import SealedResultsInfo from "@/components/sealedresultsinfo";
+import SealedSearchFilters from "@/components/sealedsearchfilters";
 export default function Sealed() {
   const { useSealedSearchStore } = useStore();
   const store = useSealedSearchStore();
@@ -31,9 +32,10 @@ export default function Sealed() {
             </div>
           )}
           <div className="mt-2">
-            {store.resultsRaw.length > 0 && (
+            {store.results.length > 0 && (
               <div>
                 <SealedResultsInfo />
+                <SealedSearchFilters />
                 {store.results.map((result, index) => (
                   <div key={index}>
                     <SealedProductRow product={result} />
