@@ -538,6 +538,7 @@ const multiSearchStore = (set, get) => ({
 
 const sealedSearchStore = (set, get) => ({
   searchQuery: "",
+  searchedQuery: "",
   resultsRaw: [],
   results: [],
   loading: false,
@@ -561,7 +562,7 @@ const sealedSearchStore = (set, get) => ({
   },
   fetchAutoCompleteResults: (searchQuery) => {
     axios
-      .get(`http://localhost:8000/utils/autocomplete/${searchQuery}`)
+      .get(`https://snapcasterv2-api-production.up.railway.app/utils/autocomplete/${searchQuery}`)
       .then((res) => {
         set({ autoCompleteResults: res.data.slice(0, 5) });
       });
@@ -587,7 +588,9 @@ const sealedSearchStore = (set, get) => ({
         set({
           resultsRaw: res.data.sort((a, b) => (a.price > b.price ? 1 : -1)),
         });
+        set({ results: get().resultsRaw });
         set({ loading: false });
+        set({ searchedQuery: get().searchQuery });
         set({ showAutoComplete: false });
         set({ showBanner: false });
 
