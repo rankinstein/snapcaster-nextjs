@@ -32,13 +32,13 @@ export default function SealedSearchFilters() {
           </select>
         </div>
       </div>
-      {/* Tag selectors */}
-      <div className="flex flex-row justify-center items-center p-2 space-x-2">
+      {/* Tag selectors are in a row, with overlow that wraps to another row*/}
+      <div className="flex flex-row justify-center items-center py-2 flex-wrap">
         {store.filterTags.map((tag, index) => {
           return (
             // if tag.selected, baground is purple, otherwise it's gray
             <div key={index}
-                className={`transition-all flex flex-row justify-center items-center p-2 rounded-md text-white text-sm cursor-pointer hover:bg-purple-500 ${
+                className={`transition-all flex flex-row justify-center items-center m-1 p-2 rounded-md text-white text-sm cursor-pointer hover:bg-purple-500 ${
                     tag.selected ? "bg-purple-700" : "bg-gray-700"
                 }`}
 

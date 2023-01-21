@@ -734,6 +734,7 @@ const sealedSearchStore = (set, get) => ({
   handleSubmit: (e) => {
     e.preventDefault();
     set({ loading: true });
+    set({ showAutoComplete: false });
     axios
       .post("https://snapcasterv2-api-production.up.railway.app/search/sealed/", {
         setName: get().searchQuery,
