@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { bisectDate } from "d3-array";
+import { parse } from "postcss";
 
 const LineChart = ({ data }) => {
   const avgData = data.price_data.map((d) => {
@@ -89,39 +90,38 @@ const LineChart = ({ data }) => {
       .attr("class", "tooltip")
       .style("opacity", 0)
       .style("position", "absolute")
-      .style("background-color", "red")
-      // .append("value")
-      // .text("100")
-      const parseDate = d3.timeParse("%Y-%m-%d");
+      .style("background-color", "red");
+    // .append("value")
+    // .text("100")
     // Tooltip mousemove event handler
     const tipMousemove = function (d, i) {
-      let xPos = d.pageX
-      let yPos = d.pageY
+      let xPos = d.pageX;
+      let yPos = d.pageY;
+      // choose the appropriate dataList (maxData, minData, avgData)
+      let dataList = d.target.classList[0] === "max-line" ? maxData : 
+      d.target.classList[0] === "min-line" ? minData : avgData;
 
-      let x0 = parseDate(xScale.invert(d.pageX));
-      // define bisect function
-      let bisect = d3.bisect(maxData.map(d => parseDate(d.date)), parseDate(x0), 1)      
-      console.log(bisect)
+      // sort the data by acvending date
+      dataList.sort((a, b) => a.date - b.date);
+
+      let x0 = xScale.invert(d3.pointer(d)[0] - padding.left);
+      let bisect = d3.bisector((d) => d.date).left(dataList, x0, 1);
       let dataPoint;
-      if(bisect == 0) {
-        dataPoint = avgData[0]
-      } else if(bisect == avgData.length) {
-        dataPoint = maxData[maxData.length - 1]
+      if (bisect == 0) {
+        dataPoint = dataList[0];
+      } else if (bisect == dataList.length) {
+        dataPoint = dataList[dataList.length - 1];
       } else {
-        let d0 = maxData[bisect - 1]
-        let d1 = maxData[bisect]
-        dataPoint = x0 - d0.date > d1.date - x0 ? d1 : d0
+        let d0 = dataList[bisect - 1];
+        let d1 = dataList[bisect];
+        dataPoint = x0 - d0.date > d1.date - x0 ? d1 : d0;
       }
-
 
       tooltip
         .style("left", xPos + "px")
         .style("top", yPos + "px")
         .style("opacity", 1)
-        .html(
-          `<p>Price: ${dataPoint.price}</p>`
-        );
-
+        .html(`<p>Price: ${dataPoint.price}</p>`);
     };
 
     // Tooltip mouseout event handler
@@ -161,6 +161,7 @@ const LineChart = ({ data }) => {
       .attr("d", lineGenerator(maxData))
       .attr("stroke", "red")
       .attr("stroke-width", 4)
+      // make selection area larger for tooltip
       .on("mousemove", function (d, i) {
         tipMousemove(d, i);
       });
