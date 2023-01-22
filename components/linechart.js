@@ -88,13 +88,23 @@ const LineChart = ({ data }) => {
       .attr("class", "tooltip")
       .style("opacity", 0);
 
+      const bisect = d3.bisector(function(d) { return d.date; }).left;
+
     // Tooltip mousemove event handler
-    const tipMousemove = function (d, event) {
-      const html = `<span style="color:white">${d.price}</span>`;
+    const tipMousemove = function (event) {
+      const x0 = xScale.invert(d3.pointer(event)[0] - padding.left);
+      const i = bisect(avgData, x0, 1);
+      const d0 = avgData[i - 1];
+      const d1 = avgData[i];
+      const d = x0 - d0.date > d1.date - x0 ? d1 : d0;
       tooltip
-        .html(html)
-        .style("left", event.pageX + 15 + "px")
-        .style("top", event.pageY - 28 + "px")
+
+        .html(
+          `
+          <p><strong>Average Price:</strong> $${d.price}</p>`
+        )
+        .style("left", `${event.pageX + 15}px`)
+        .style("top", `${event.pageY - 28}px`)
         .transition()
         .duration(200) // ms
         .style("opacity", 0.9); // started as 0!
@@ -122,7 +132,10 @@ const LineChart = ({ data }) => {
       .attr("class", "avg-line")
       .attr("d", lineGenerator(avgData))
       .attr("stroke", "purple")
-      .attr("stroke-width", 2);
+      .attr("stroke-width", 2)
+      .on("mousemove", function (event) {
+        tipMousemove(event);
+      });
 
     // Max Price Line
     svg
@@ -133,7 +146,10 @@ const LineChart = ({ data }) => {
       .attr("class", "max-line")
       .attr("d", lineGenerator(maxData))
       .attr("stroke", "red")
-      .attr("stroke-width", 2);
+      .attr("stroke-width", 2)      
+      .on("mousemove", function (event) {
+        tipMousemove(event);
+      });
 
     // Min Price Line
     svg
@@ -145,8 +161,8 @@ const LineChart = ({ data }) => {
       .attr("d", lineGenerator(minData))
       .attr("stroke", "green")
       .attr("stroke-width", 2)
-      .on("mousemove", function (event, d) {
-        tipMousemove(d, event);
+      .on("mousemove", function (event) {
+        tipMousemove(event);
       })
 
       .on("mouseout", tipMouseout);
