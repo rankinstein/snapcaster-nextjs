@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
+import { bisectDate } from "d3-array";
 
 const LineChart = ({ data }) => {
   const avgData = data.price_data.map((d) => {
@@ -86,35 +87,41 @@ const LineChart = ({ data }) => {
       .select("body")
       .append("div")
       .attr("class", "tooltip")
-      .style("opacity", 0);
-
+      .style("opacity", 0)
+      .style("position", "absolute")
+      .style("background-color", "red")
+      // .append("value")
+      // .text("100")
+      const parseDate = d3.timeParse("%Y-%m-%d");
     // Tooltip mousemove event handler
-    const tipMousemove = function (d, event) {
-      // get the appropriate data list based on the class of the line
-      const dataList =
-        d.target.classList[0] === "avg-line"
-          ? avgData
-          : d.target.classList[0] === "max-line"
-          ? maxData
-          : minData;
+    const tipMousemove = function (d, i) {
+      let xPos = d.pageX
+      let yPos = d.pageY
 
-      // get the index of the data point that is closest to the mouse
-      const mouseX = d.pageX;
-      console.log("dataList", dataList);
-      console.log("mouseX", mouseX);
+      let x0 = parseDate(xScale.invert(d.pageX));
+      // define bisect function
+      let bisect = d3.bisect(maxData.map(d => parseDate(d.date)), parseDate(x0), 1)      
+      console.log(bisect)
+      let dataPoint;
+      if(bisect == 0) {
+        dataPoint = avgData[0]
+      } else if(bisect == avgData.length) {
+        dataPoint = maxData[maxData.length - 1]
+      } else {
+        let d0 = maxData[bisect - 1]
+        let d1 = maxData[bisect]
+        dataPoint = x0 - d0.date > d1.date - x0 ? d1 : d0
+      }
 
-      const dataPoint = 25;
-      // display "average", "max", or "min" in the tooltip
+
       tooltip
+        .style("left", xPos + "px")
+        .style("top", yPos + "px")
+        .style("opacity", 1)
         .html(
-          `
-          <p>${d.target.classList[0].split("-")[0]} price: $${dataPoint}</p>`
-        )
-        .style("left", `${d.pageX + 15}px`)
-        .style("top", `${d.pageY - 28}px`)
-        .transition()
-        .duration(200) // ms
-        .style("opacity", 0.9); // started as 0!
+          `<p>Price: ${dataPoint.price}</p>`
+        );
+
     };
 
     // Tooltip mouseout event handler
@@ -139,9 +146,9 @@ const LineChart = ({ data }) => {
       .attr("class", "avg-line")
       .attr("d", lineGenerator(avgData))
       .attr("stroke", "purple")
-      .attr("stroke-width", 2)
-      .on("mousemove", function (d, event) {
-        tipMousemove(d, event);
+      .attr("stroke-width", 4)
+      .on("mousemove", function (d, i) {
+        tipMousemove(d, i);
       });
 
     // Max Price Line
@@ -153,9 +160,9 @@ const LineChart = ({ data }) => {
       .attr("class", "max-line")
       .attr("d", lineGenerator(maxData))
       .attr("stroke", "red")
-      .attr("stroke-width", 2)
-      .on("mousemove", function (d, event) {
-        tipMousemove(d, event);
+      .attr("stroke-width", 4)
+      .on("mousemove", function (d, i) {
+        tipMousemove(d, i);
       });
 
     // Min Price Line
@@ -167,9 +174,9 @@ const LineChart = ({ data }) => {
       .attr("class", "min-line")
       .attr("d", lineGenerator(minData))
       .attr("stroke", "green")
-      .attr("stroke-width", 2)
-      .on("mousemove", function (d, event) {
-        tipMousemove(d, event);
+      .attr("stroke-width", 4)
+      .on("mousemove", function (d, i) {
+        tipMousemove(d, i);
       })
 
       .on("mouseout", tipMouseout);
