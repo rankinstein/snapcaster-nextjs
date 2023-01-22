@@ -29,6 +29,7 @@ export async function getServerSideProps(context) {
 
   let data = null;
   await fetch(`http://localhost:8000/pricedata/card/${card}/`)
+  // await fetch(`https://snapcasterv2-api-production.up.railway.app/pricedata/card/${card}/`)
     .then((res) => res.json())
     .then((json) => {
       data = json;
