@@ -1,25 +1,24 @@
 import LineChart from "../../components/linechart";
 
 export default function Card({ card, data }) {
+  console.log("data", data);
 
   // hit pricedata api for the card
   return (
     <div>
       <div className="flex flex-row justify-center items-center">
-        {/* image of magic card placeholder */}
-       <img src={data.image_uri} alt={data.card_name} 
-        className="w-48 h-auto p-4"
-       /> 
-        
-        <LineChart data={data}/>
+        <div className="flex flex-col justify-center items-center">
+          {/* image of magic card placeholder */}
+          <img
+            src={data.image_uri}
+            alt={data.card_name}
+            className="w-48 h-auto m-4 rounded-lg"
+          />
+          <h1 className="text-2xl font-bold">{data.card_name}</h1>
+        </div>
+
+        <LineChart data={data} />
       </div>
-      <h1>
-        {data.price_data.map((item, index) => (
-          <div key={index}>
-            <p>{item.date}</p>
-          </div>
-        ))}
-      </h1>
     </div>
   );
 }
