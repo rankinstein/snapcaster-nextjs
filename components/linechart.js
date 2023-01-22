@@ -98,8 +98,12 @@ const LineChart = ({ data }) => {
       let xPos = d.pageX;
       let yPos = d.pageY;
       // choose the appropriate dataList (maxData, minData, avgData)
-      let dataList = d.target.classList[0] === "max-line" ? maxData : 
-      d.target.classList[0] === "min-line" ? minData : avgData;
+      let dataList =
+        d.target.classList[0] === "max-line"
+          ? maxData
+          : d.target.classList[0] === "min-line"
+          ? minData
+          : avgData;
 
       // sort the data by acvending date
       dataList.sort((a, b) => a.date - b.date);
