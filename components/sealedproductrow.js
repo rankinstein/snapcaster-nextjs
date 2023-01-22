@@ -4,7 +4,7 @@ export default function SealedProductRow({ product }) {
   const { useSealedSearchStore } = useStore();
   const store = useSealedSearchStore();
   return (
-    <div className="grid grid-cols-12 gap-4 m-1 p-2 rounded-md bg-gray-700 hover:bg-gray-600">
+    <div className="grid grid-cols-12 gap-4 m-1 p-2 rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
       <div className="col-span-3 m-auto">
         <img
           src={product.image}
@@ -21,7 +21,7 @@ export default function SealedProductRow({ product }) {
             {product.tags.map((tag) => (
               <div
                 key={tag}
-                className="text-xs font-bold rounded-md px-2 py-1 mt-1 mr-1"
+                className="text-xs font-bold rounded-md px-2 py-1 mt-1 mr-1 text-white"
                 style={{
                   background: `linear-gradient(90deg, red 0%, orange 100%)`,
                 }}
@@ -45,7 +45,7 @@ export default function SealedProductRow({ product }) {
             className="mt-1 w-12 md:w-12 object-cover"
           />
           <button
-            className="btn-small mt-2"
+            className="btn-small mt-2 text-white"
             // onClick - open product.link in a new tab
             onClick={() => window.open(product.link, "_blank")}
           >

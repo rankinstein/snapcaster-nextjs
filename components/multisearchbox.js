@@ -8,9 +8,9 @@ export default function Multisearchbox() {
       <div className="mt-3 w-full">
         <label
           htmlFor="multisearchFormControlTextarea1"
-          className="font-bold form-label inline-block mb-2 text-white"
+          className="font-bold form-label inline-block mb-2 "
         >
-          Card to search
+          Cards to search
         </label>
         <textarea
           className="
@@ -21,14 +21,13 @@ export default function Multisearchbox() {
           py-1.5
           text-base
           font-normal
-          text-gray-200
-          bg-slate-700 bg-clip-padding
+          dark:bg-slate-700 bg-clip-padding
           border border-solid border-gray-300
           rounded
           transition
           ease-in-out
           m-0
-          focus:text-white focus:bg-slate-800 focus:border-purple-600 focus:outline-none
+          dark:focus:text-white dark:focus:bg-slate-800 focus:border-purple-600 focus:outline-none
         "
           id="multisearchFormControlTextarea1"
           rows="10"

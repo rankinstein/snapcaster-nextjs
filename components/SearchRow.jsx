@@ -52,7 +52,7 @@ export default function SearchRow({ cardData }) {
   return (
     <>
       <>
-        <div className="grid grid-cols-12 gap-4 m-1 p-2 hover:backdrop-brightness-75 rounded-md transition-all bg-gray-700 hover:bg-gray-800">
+        <div className="grid grid-cols-12 gap-4 m-1 p-2 hover:backdrop-brightness-75 rounded-md transition-all bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800">
           {/* center content vertically in thje column */}
           <div className="col-span-3 flex justify-center items-center">
             <img
