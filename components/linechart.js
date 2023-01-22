@@ -62,7 +62,11 @@ const LineChart = ({ data }) => {
       .append("g")
       .attr("class", "x-axis")
       .attr("transform", `translate(${padding.left}, ${height})`)
-      .call(d3.axisBottom(xScale));
+      .call(d3.axisBottom(xScale))
+      .selectAll("text")
+      .attr("transform", "rotate(-45)")
+      .attr("text-anchor", "end");
+      
 
     // Y Axis
     svg
@@ -90,7 +94,9 @@ const LineChart = ({ data }) => {
       .attr("class", "tooltip")
       .style("opacity", 0)
       .style("position", "absolute")
-      .style("background-color", "red");
+      .style("background-color", "gray")
+      .style("padding", "10px")
+      .style("border-radius", "5px");
     // .append("value")
     // .text("100")
     // Tooltip mousemove event handler
@@ -125,7 +131,7 @@ const LineChart = ({ data }) => {
         .style("left", xPos + "px")
         .style("top", yPos + "px")
         .style("opacity", 1)
-        .html(`<p>Price: ${dataPoint.price}</p>`);
+        .html(`<p>Price: ${parseFloat(dataPoint.price, 2).toFixed(2)}</p>`);
     };
 
     // Tooltip mouseout event handler
