@@ -88,23 +88,30 @@ const LineChart = ({ data }) => {
       .attr("class", "tooltip")
       .style("opacity", 0);
 
-      const bisect = d3.bisector(function(d) { return d.date; }).left;
-
     // Tooltip mousemove event handler
-    const tipMousemove = function (event) {
-      const x0 = xScale.invert(d3.pointer(event)[0] - padding.left);
-      const i = bisect(avgData, x0, 1);
-      const d0 = avgData[i - 1];
-      const d1 = avgData[i];
-      const d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-      tooltip
+    const tipMousemove = function (d, event) {
+      // get the appropriate data list based on the class of the line
+      const dataList =
+        d.target.classList[0] === "avg-line"
+          ? avgData
+          : d.target.classList[0] === "max-line"
+          ? maxData
+          : minData;
 
+      // get the index of the data point that is closest to the mouse
+      const mouseX = d.pageX;
+      console.log("dataList", dataList);
+      console.log("mouseX", mouseX);
+
+      const dataPoint = 25;
+      // display "average", "max", or "min" in the tooltip
+      tooltip
         .html(
           `
-          <p><strong>Average Price:</strong> $${d.price}</p>`
+          <p>${d.target.classList[0].split("-")[0]} price: $${dataPoint}</p>`
         )
-        .style("left", `${event.pageX + 15}px`)
-        .style("top", `${event.pageY - 28}px`)
+        .style("left", `${d.pageX + 15}px`)
+        .style("top", `${d.pageY - 28}px`)
         .transition()
         .duration(200) // ms
         .style("opacity", 0.9); // started as 0!
@@ -133,8 +140,8 @@ const LineChart = ({ data }) => {
       .attr("d", lineGenerator(avgData))
       .attr("stroke", "purple")
       .attr("stroke-width", 2)
-      .on("mousemove", function (event) {
-        tipMousemove(event);
+      .on("mousemove", function (d, event) {
+        tipMousemove(d, event);
       });
 
     // Max Price Line
@@ -146,9 +153,9 @@ const LineChart = ({ data }) => {
       .attr("class", "max-line")
       .attr("d", lineGenerator(maxData))
       .attr("stroke", "red")
-      .attr("stroke-width", 2)      
-      .on("mousemove", function (event) {
-        tipMousemove(event);
+      .attr("stroke-width", 2)
+      .on("mousemove", function (d, event) {
+        tipMousemove(d, event);
       });
 
     // Min Price Line
@@ -161,8 +168,8 @@ const LineChart = ({ data }) => {
       .attr("d", lineGenerator(minData))
       .attr("stroke", "green")
       .attr("stroke-width", 2)
-      .on("mousemove", function (event) {
-        tipMousemove(event);
+      .on("mousemove", function (d, event) {
+        tipMousemove(d, event);
       })
 
       .on("mouseout", tipMouseout);
