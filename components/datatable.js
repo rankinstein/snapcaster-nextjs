@@ -13,8 +13,8 @@ export default function DataTable({ data }) {
           </tr>
         </thead>
         <tbody>
-          {data.price_data.map((element) => (
-            <tr>
+          {data.price_data.map((element, index) => (
+            <tr key={index}>
               <td className="border px-4 py-2">{element.date}</td>
               <td className="border px-4 py-2">{element.avg_price}</td>
               <td className="border px-4 py-2">{element.max_price}</td>
