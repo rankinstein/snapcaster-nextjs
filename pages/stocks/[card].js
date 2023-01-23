@@ -40,7 +40,7 @@ export default function Card({ card, data }) {
           )}
           {/* Card image and price chart */}
           {data.price_data.length > 0 && <div className="grid grid-cols-12 w-full">
-            <div className="col-span-12 lg:col-span-4 h-full ">
+            <div className="col-span-12 lg:col-span-4 h-full mb-3">
               <div className="flex flex-col justify-center items-center w-full">
                 {/* image of magic card placeholder */}
                 <img

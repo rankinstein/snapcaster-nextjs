@@ -10,9 +10,11 @@ const RechartsLineChart = ({price_data}) => {
   
     
   return (
-    <div className="p-4 dark:bg-gray-800 rounded-md">
+    <div className=" dark:bg-gray-800 rounded-md">
       <ResponsiveContainer width="100%" height={300}>
-    <LineChart width={600} height={300} data={price_data}>
+    <LineChart width={600} height={300} data={price_data}
+      margin={{ top: 0, right: 40, left: 0, bottom: 0 }}
+    >
       <XAxis dataKey="date" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" /> 
