@@ -1,6 +1,7 @@
 import axios from "axios";
 import useStore from "@/store";
 import { useEffect } from "react";
+const API_URI = process.env.NEXT_PUBLIC_API_URI;
 export default function Searchbox() {
   const { useHomePageStore } = useStore();
   const { 
@@ -25,7 +26,7 @@ export default function Searchbox() {
 
     axios
       .post(
-        `https://snapcasterv2-api-production.up.railway.app/search/single/`,
+        `${API_URI}/search/single/`,
         {
           cardName: searchQuery,
           websites: ["all"],

@@ -2,6 +2,7 @@ import RechartsLineChart from "../../components/rechartsline";
 import Head from "next/head";
 import TabbedContent from "../../components/tabbedcontent";
 import DataTable from "@/components/datatable";
+const API_URI = process.env.NEXT_PUBLIC_API_URI;
 export default function Card({ card, data }) {
   // hit pricedata api for the card
   // if data.price_data is empty, show a message saying that the card is not in the database
@@ -67,7 +68,7 @@ export async function getServerSideProps(context) {
 
   let data = null;
   await fetch(
-    `https://snapcasterv2-api-production.up.railway.app/pricedata/card/${card}/`
+    `${API_URI}/pricedata/card/${card}/`
   )
     // await fetch(`https://snapcasterv2-api-production.up.railway.app/pricedata/card/${card}/`)
     .then((res) => res.json())
