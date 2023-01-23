@@ -16,12 +16,12 @@ export default function Card({ card, data }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex flex-col justify-between items-center p-8 min-h-screen">
-        <div className="flex flex-col justify-center flex-1 text-center max-w-5xl w-full">
+      <main className="flex flex-col justify-between items-center p-8 pt-20 min-h-screen">
+        <div className="flex flex-col flex-1 max-w-5xl w-full">
           {/* Card image and price chart */}
           <div className="grid grid-cols-12 w-full">
             <div className="col-span-12 lg:col-span-4 h-full flex">
-              <div className="flex flex-col justify-center items-center">
+              <div className="flex flex-col justify-center items-center w-full">
                 {/* image of magic card placeholder */}
                 <img
                   src={data.image_uri}
