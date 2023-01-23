@@ -5,9 +5,8 @@ import Link from 'next/link'
 export default function Stocks({ test }) {
   const [searchQuery , setSearchQuery] = React.useState('')
   const handleClick = () => {
-    // open a new tab with /stocks/[cardname] using <Link> from next.js
-
-
+    // open a new tab with /stocks/[cardname]
+    window.open(`/stocks/${searchQuery}/`, '_blank')
     
   }
   return (
@@ -41,9 +40,7 @@ export default function Stocks({ test }) {
               >
                 Search
               </button>
-              <Link href="/stocks/[cardname]" as={`/stocks/${searchQuery}`}>
-                Open in new tab for {searchQuery}
-              </Link>
+
               
               </div>
           </div>
