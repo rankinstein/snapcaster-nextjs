@@ -38,13 +38,12 @@ export default function StoreSelector() {
 
     <button className="bg-gray-300 hover:bg-gray-400 dark:bg-slate-800 dark:hover:bg-slate-700 p-2 rounded-md m-1" onClick={() => {
         let allSelected = {}
-        websites.forEach((website) => {
-            allSelected[website.code] = true
-        })
         let noneSelected = {}
         websites.forEach((website) => {
+            allSelected[website.code] = true
             noneSelected[website.code] = false
         })
+        
         if (JSON.stringify(store.websites) === JSON.stringify(allSelected)) {
             store.setWebsites(noneSelected)
         } else {
