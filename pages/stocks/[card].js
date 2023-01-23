@@ -27,7 +27,7 @@ export default function Card({ card, data }) {
               </h1>
               <p className="my-2 italic">But you just added the first price entry!</p>
               <h1 className="text-sm font-bold">
-                Please try another card name, or refresh the page to view the new data points.
+                Please try another card name, or refresh the page in a few moment to view the new data.
               </h1>
             </div>
           )}
