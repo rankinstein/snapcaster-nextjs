@@ -3,7 +3,6 @@ import React from "react";
 export default function DataTable({ data }) {
   return (
     <div className="flex flex-col justify-center items-center">
-      <h1 className="text-xl font-bold">Price Data</h1>
       <table className="table-auto">
         <thead>
           <tr>
