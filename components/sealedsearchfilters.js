@@ -9,9 +9,9 @@ export default function SealedSearchFilters() {
     <div className="flex flex-col justify-center">
       <div className="flex flex-row justify-center items-center p-2">
         <div className="flex flex-row items-center p-2">
-          <label className="text-gray-400 text-sm mr-2">Sort By</label>
+          <label className="text-sm mr-2">Sort By</label>
           <select
-            className="p-1 rounded-md text-white text-sm"
+            className="p-1 rounded-md text-sm"
             onChange={(e) => {
               store.setSortBy(e.target.value);
             }}
@@ -22,7 +22,7 @@ export default function SealedSearchFilters() {
         </div>
         <div>
           <select
-            className="p-1 rounded-md text-white text-sm"
+            className="p-1 rounded-md text-sm"
             onChange={(e) => {
               store.setSortOrder(e.target.value);
             }}

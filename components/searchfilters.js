@@ -72,16 +72,16 @@ export default function SearchFilters() {
       <div
         className={`transition-all flex flex-col justify-center items-center w-full ${
           store.showFilters ? "opacity-100 h-80" : "opacity-0 h-0"
-        } bg-gradient-to-b from-black to-gray-900 shadow-md rounded-sm`}
+        } bg-gray-300 dark:bg-gray-800 shadow-md rounded-sm`}
       >
         {store.showFilters && (
           <>
             {/* selector for sort by */}
             <div className="flex flex-row justify-between items-center p-2">
               <div className="flex flex-row justify-between items-center p-2">
-                <label className="text-gray-400 text-sm mr-2">Sort By</label>
+                <label className="text-sm mr-2">Sort By</label>
                 <select
-                  className="p-1 rounded-md text-white text-sm"
+                  className="p-1 rounded-md text-sm"
                   onChange={(e) => {
                     store.setSortBy(e.target.value);
                   }}
@@ -94,7 +94,7 @@ export default function SearchFilters() {
               </div>
               <div>
                 <select
-                  className="p-1 rounded-md text-white text-sm"
+                  className="p-1 rounded-md text-sm"
                   onChange={(e) => {
                     store.setSortOrder(e.target.value);
                   }}
@@ -130,12 +130,12 @@ export default function SearchFilters() {
                   key={index}
                   className="col-span-1 flex flex-row justify-between text-left items-center w-full"
                 >
-                  <label className="text-gray-400 text-sm mr-1">
+                  <label className="text-sm mr-1">
                     {checkbox.label}
                   </label>
                   <input
                     type="checkbox"
-                    className="text-gray-400 text-sm accent-purple-300"
+                    className="text-sm accent-purple-300"
                     checked={checkbox.value}
                     onChange={() => {
                       store.setConditions({
@@ -150,7 +150,7 @@ export default function SearchFilters() {
 
             <div className="flex flex-row space-x-2">
               <button
-                className="transition-all outline outline-2 -outline-offset-2 outline-purple-500 hover:bg-purple-500 hover:bg-opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-purple-900 focus:shadow-outline mt-4 mx-auto"
+                className="transition-all outline outline-2 -outline-offset-2 outline-purple-500 hover:bg-purple-500 hover:bg-opacity-50 font-bold py-2 px-4 rounded focus:outline-purple-900 focus:shadow-outline mt-4 mx-auto"
                 onClick={() => {
                   resetFilters(store);
                 }}
@@ -174,7 +174,7 @@ export default function SearchFilters() {
       </div>
 
       <button
-        className="text-gray-400 text-sm"
+        className="text-sm"
         onClick={() => {
           store.setShowFilters(!store.showFilters);
           console.log("clicked");

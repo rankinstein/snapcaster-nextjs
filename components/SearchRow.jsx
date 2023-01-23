@@ -40,6 +40,8 @@ const websiteLogos = {
     "https://i.ibb.co/cvNCbXx/Border-City-Games-Large-85873391-3559-47f7-939a-420461a0033f-201x-removebg-preview.png",
   aethervault:
     "https://d1rw89lz12ur5s.cloudfront.net/store/aethervaultgames/baa99644755e44c2a11d7bc20494e7b0/large/AetherVaultGames.png",
+  thecomichunter:
+    "https://d1rw89lz12ur5s.cloudfront.net/store/comichunter/77344716f796416590aa7e3ec91af534/large/ComicHunter.png"
 };
 
 export default function SearchRow({ cardData }) {
@@ -50,7 +52,7 @@ export default function SearchRow({ cardData }) {
   return (
     <>
       <>
-        <div className="grid grid-cols-12 gap-4 m-1 p-2 hover:backdrop-brightness-75 rounded-md transition-all bg-gray-700 hover:bg-gray-800">
+        <div className="grid grid-cols-12 gap-4 m-1 p-2 hover:backdrop-brightness-75 rounded-md transition-all bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800">
           {/* center content vertically in thje column */}
           <div className="col-span-3 flex justify-center items-center">
             <img

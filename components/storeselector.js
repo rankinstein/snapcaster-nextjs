@@ -10,7 +10,7 @@ export default function StoreSelector() {
         {
             websites.map((website, index) => {
                 return (
-                    <div key={index} className="flex items-center bg-slate-800 hover:bg-slate-700  accent-purple-700 p-2 rounded-md m-1"
+                    <div key={index} className="flex items-center bg-gray-300 hover:bg-gray-400 dark:bg-slate-800 dark:hover:bg-slate-700  accent-purple-700 p-2 rounded-md m-1"
                     onClick={() => {
                         store.setWebsites({
                             ...store.websites,
@@ -36,15 +36,14 @@ export default function StoreSelector() {
         }
     </div>
 
-    <button className="bg-slate-800 hover:bg-slate-700 p-2 rounded-md m-1" onClick={() => {
+    <button className="bg-gray-300 hover:bg-gray-400 dark:bg-slate-800 dark:hover:bg-slate-700 p-2 rounded-md m-1" onClick={() => {
         let allSelected = {}
-        websites.forEach((website) => {
-            allSelected[website.code] = true
-        })
         let noneSelected = {}
         websites.forEach((website) => {
+            allSelected[website.code] = true
             noneSelected[website.code] = false
         })
+        
         if (JSON.stringify(store.websites) === JSON.stringify(allSelected)) {
             store.setWebsites(noneSelected)
         } else {

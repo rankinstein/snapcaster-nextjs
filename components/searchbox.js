@@ -1,13 +1,28 @@
 import axios from "axios";
 import useStore from "@/store";
+import { useEffect } from "react";
 export default function Searchbox() {
   const { useHomePageStore } = useStore();
-  const store = useHomePageStore();
-  const { searchQuery, setOnlySearchQuery, setSearchQuery } = store;
-  const handleSubmit = (e) => {
-    store.setShowAutoComplete(false);
-    store.setLoading(true);
-    e.preventDefault();
+  const { 
+    searchQuery, 
+    setSearchQuery,
+    setOnlySearchQuery, 
+    setSearchedQuery, 
+    loading, 
+    setLoading, 
+    setResultsRaw, 
+    setResults, 
+    setShowBanner,
+    showAutoComplete,
+    setShowAutoComplete,
+    autoCompleteResults,
+  } = useHomePageStore();
+
+  useEffect(() => {
+    if (!loading) {
+      return
+    }
+
     axios
       .post(
         `https://snapcasterv2-api-production.up.railway.app/search/single/`,
@@ -17,17 +32,22 @@ export default function Searchbox() {
         }
       )
       .then((res) => {
-        store.setResultsRaw(res.data);
-        store.setResults(
+        setResultsRaw(res.data);
+        setResults(
           res.data.sort((a, b) => {
             return a.price - b.price;
           })
-          
-          );
-        store.setLoading(false);
-        store.setShowBanner(false);
-        store.setSearchedQuery(searchQuery);
-      });
+        );
+        setLoading(false);
+        setShowBanner(false);
+        setSearchedQuery(searchQuery);
+      })
+  }, [loading, searchQuery, setLoading, setResults, setResultsRaw, setSearchedQuery, setShowBanner])
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setShowAutoComplete(false);
+    setLoading(true);
   };
 
   return (
@@ -40,7 +60,7 @@ export default function Searchbox() {
         >
           <input
             type="text"
-            className="block w-full px-4 py-2 text-white placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+            className="block w-full px-4 py-2  placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
             placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -70,20 +90,20 @@ export default function Searchbox() {
         </form>
         {/* Autocomplete results from store.autoCompleteResults */}
         {/* when clicking anywhere outside the autocomplete, set showAutoComplete to false */}
-        {store.showAutoComplete && (
+        {showAutoComplete && (
           <div className="absolute top-12 w-full bg-gray-800 rounded-md shadow-lg"
             onClick={() => {
-              store.setShowAutoComplete(false);
+              setShowAutoComplete(false);
             }}
           >
             <ul className="divide-y divide-gray-700">
-              {store.autoCompleteResults.map((result) => (
+              {autoCompleteResults.map((result) => (
                 <li
                   key={result}
                   className="px-3 py-3 cursor-pointer hover:bg-gray-700"
-                  onClick={() => {
+                  onClick={(e) => {
                     setOnlySearchQuery(result);
-                    store.setShowAutoComplete(false);
+                    handleSubmit(e);
                   }}
                 >
                   <p className="text-sm text-gray-300">{result}</p>

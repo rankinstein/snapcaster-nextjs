@@ -40,6 +40,10 @@ const websiteLogos = {
     "https://i.ibb.co/cvNCbXx/Border-City-Games-Large-85873391-3559-47f7-939a-420461a0033f-201x-removebg-preview.png",
   aethervault:
     "https://d1rw89lz12ur5s.cloudfront.net/store/aethervaultgames/baa99644755e44c2a11d7bc20494e7b0/large/AetherVaultGames.png",
+  thecomichunter:
+    "https://d1rw89lz12ur5s.cloudfront.net/store/comichunter/77344716f796416590aa7e3ec91af534/large/ComicHunter.png",
+  fantasyforged:
+    "https://i.ibb.co/2YNj4BG/fantasyforged.png"
 };
 
 const websites = [
@@ -130,6 +134,10 @@ const websites = [
   {
     name: "Sequence Gaming Brockville",
     code: "sequencegaming",
+  },
+  {
+    name: "The Comic Hunter",
+    code: "thecomichunter"
   },
   {
     name: "Topdeck Hero",
@@ -518,6 +526,7 @@ const multiSearchStore = (set, get) => ({
     magicstronghold: true,
     orchardcity: true,
     sequencegaming: true,
+    thecomichunter: true,
     topdeckhero: true,
     kanatacg: true,
   },

@@ -96,11 +96,11 @@ export default function Navbar() {
                       // stocks page should have red background
                       // current page should have gray background (even for stocks page)
                       className={`
-text-white rounded-md py-2 px-3 text-sm font-medium hover:bg-gray-700
+ rounded-md py-2 px-3 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700
 ${
   page.current
-    ? "bg-gray-600 hover:bg-gray-500"
-    : page.name === "Stocks" && "bg-purple-900 hover:bg-purple-700"
+    && "text-white bg-gray-600 hover:bg-gray-500"
+
 } 
 `}
                     >
@@ -113,9 +113,7 @@ ${
           </div>
           {/*  mobile menu opens when mobileMenuOpen = true */}
           <div
-            className={`${
-              mobileMenuOpen ? "block h-fit" : "hidden"
-            } sm:hidden`}
+            className={`${mobileMenuOpen ? "block h-fit" : "hidden"} sm:hidden`}
             id="mobile-menu"
           >
             <div className="px-2 pt-2 pb-3 space-y-1">

@@ -24,7 +24,7 @@ export default function CardVariantSelector({ card }) {
         onClick={() => {
           setModalOpen(true);
         }}
-        className="m-2 p-2 rounded-md bg-purple-500 text-sm w-full transition-all hover:bg-purple-800"
+        className="m-2 p-2 rounded-md bg-purple-500 text-sm w-full transition-all hover:bg-purple-800 text-white"
       >
         Other results
       </button>
@@ -38,7 +38,7 @@ export default function CardVariantSelector({ card }) {
           }}
         >
           <div
-            className="bg-gray-900 rounded-md pt-4 px-2 mx-1"
+            className="bg-white dark:bg-gray-900 rounded-md pt-4 px-2 mx-1"
             onClick={(e) => {
               e.stopPropagation();
             }}
@@ -54,9 +54,9 @@ export default function CardVariantSelector({ card }) {
               mx-4
             "
               >
-                <div className="font-bold font-md text-white">Sort by:</div>
+                <div className="font-bold font-md ">Sort by:</div>
                 <select
-                  className="m-2 p-2 rounded-md bg-gray-700"
+                  className="m-2 p-2 rounded-md bg-gray-300 dark:bg-gray-700"
                   onChange={(e) => {
                     store.sortVariants(card, e.target.value);
                   }}
@@ -72,7 +72,7 @@ export default function CardVariantSelector({ card }) {
                   onClick={() => {
                     setModalOpen(false);
                   }}
-                  className="p-2 rounded-md bg-red-700"
+                  className="p-2 rounded-md bg-red-700 text-white"
                 >
                   Close
                 </button>
@@ -86,7 +86,7 @@ export default function CardVariantSelector({ card }) {
                   return (
                     <div
                       key={index}
-                      className="flex flex-row m-2 p-2 bg-gray-700 hover:bg-gray-600 rounded"
+                      className="flex flex-row m-2 p-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded"
                       onClick={() => {
                         store.updateSelectedVariant(card, variant);
                         setModalOpen(false);
@@ -119,7 +119,7 @@ export default function CardVariantSelector({ card }) {
                           </div>
                         </div>
                         <div>
-                          <div className="text-gray-400">
+                          <div className="opacity-70">
                             {fetchWebsiteName(variant.website)}
                           </div>
                         </div>
