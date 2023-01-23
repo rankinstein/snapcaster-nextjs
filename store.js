@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+const API_URI = process.env.NEXT_PUBLIC_API_URI;
 
 const websiteLogos = {
   gauntlet:
@@ -383,7 +384,7 @@ const multiSearchStore = (set, get) => ({
     }
 
     axios
-      .post("https://snapcasterv2-api-production.up.railway.app/search/bulk/", {
+      .post(`${API_URI}/search/bulk/`, {
         cardNames: cardNames,
         websites: websiteArray,
         worstCondition: "NM",
@@ -725,7 +726,7 @@ const sealedSearchStore = (set, get) => ({
     axios
       // https://snapcasterv2-api-production.up.railway.app/search/bulk/
       .get(
-        `https://snapcasterv2-api-production.up.railway.app/utils/autocomplete/${searchQuery}/`
+        `${API_URI}/utils/autocomplete/${searchQuery}/`
       )
       .then((res) => {
         set({ autoCompleteResults: res.data.slice(0, 5) });
@@ -745,7 +746,7 @@ const sealedSearchStore = (set, get) => ({
     set({ loading: true });
     set({ showAutoComplete: false });
     axios
-      .post("https://snapcasterv2-api-production.up.railway.app/search/sealed/", {
+      .post(`${API_URI}/search/sealed/`, {
         setName: get().searchQuery,
         websites: get().websites,
       })

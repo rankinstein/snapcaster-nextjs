@@ -26,11 +26,18 @@ export default function Stocksearchbox() {
     autoCompleteResults,
   } = useHomePageStore();
 
+  // set loading to false
+
   useEffect(() => {
     if (!loading) {
       return
     }
 
+    // if searchQuery is empty, set loading to false and return
+    if (searchQuery === "") {
+      setLoading(false);
+      return;
+    }
     // navigate to the stocks/[cardname] page
     router.push(`/stocks/${searchQuery}`);
     
