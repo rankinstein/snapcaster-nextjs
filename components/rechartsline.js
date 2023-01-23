@@ -13,7 +13,7 @@ const RechartsLineChart = ({price_data}) => {
     <div className=" dark:bg-gray-800 rounded-md">
       <ResponsiveContainer width="100%" height={300}>
     <LineChart width={600} height={300} data={price_data}
-      margin={{ top: 20, right: 40, left: 0, bottom: 10 }}
+      margin={{ top: 40, right: 40, left: 10, bottom: 10 }}
     >
       <XAxis dataKey="date" />
       <YAxis />
