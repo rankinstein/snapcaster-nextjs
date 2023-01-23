@@ -44,7 +44,7 @@ export default function Stocksearchbox() {
     );
     
 
-  }, [loading, searchQuery, setLoading, setResults, setResultsRaw, setSearchedQuery, setShowBanner])
+  }, [loading, searchQuery, setLoading, setResults, setResultsRaw, setSearchedQuery, setShowBanner, router])
 
   const handleSubmit = (e) => {
     e.preventDefault();
