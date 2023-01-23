@@ -24,7 +24,7 @@ export default function Stocks({ test }) {
       <div className="flex-col items-center justify-center flex-1 text-left max-w-xl w-full">
         <div className="mx-auto space-y-7">
           <div>
-            <h1 className="text-3xl text-center">Search for a card</h1>
+            <h1 className="text-2xl text-center">Search for a card</h1>
             {/* search box to search for a card name */}
             <div className="flex flex-col justify-center">
             <Stocksearchbox />

@@ -6,6 +6,13 @@ const API_URI = process.env.NEXT_PUBLIC_API_URI;
 export default function Card({ card, data }) {
   // hit pricedata api for the card
   // if data.price_data is empty, show a message saying that the card is not in the database
+  if(data.price_data.length !== 0) {
+    // order the list by descending date
+    data.price_data.sort((a, b) => {
+      return new Date(b.date) - new Date(a.date);
+    });
+  }
+  
 
   return (
     <>
@@ -52,6 +59,7 @@ export default function Card({ card, data }) {
                 <TabbedContent className="h-full">
                   {/* <h1 className="text-xl font-bold">Price Chart</h1> */}
                   <RechartsLineChart price_data={data.price_data} />
+                  {/* r */}
                   <DataTable data={data} />
                 </TabbedContent>
             </div>
