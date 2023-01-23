@@ -1,8 +1,15 @@
 import axios from "axios";
 import useStore from "@/store";
 import { useEffect } from "react";
-const API_URI = process.env.NEXT_PUBLIC_API_URI;
-export default function Searchbox() {
+import { useRouter } from "next/router";
+export default function Stocksearchbox() {
+    /*
+    This is the searchbox component for the stocks page. It is a modified version of the searchbox component from the homepage.
+    It also uses the homePageStore since it's not necessary to create a new store for this. All the content on [card].js is SSR.
+    The only difference is the handleSubmit function, which redirects to the stocks/[cardname] page instead of the homepage.
+    Searhboxes should be refactored to be reusable components.
+    */
+    const router = useRouter();
   const { useHomePageStore } = useStore();
   const { 
     searchQuery, 
@@ -19,31 +26,25 @@ export default function Searchbox() {
     autoCompleteResults,
   } = useHomePageStore();
 
+
   useEffect(() => {
     if (!loading) {
       return
     }
 
-    axios
-      .post(
-        `${API_URI}/search/single/`,
-        {
-          cardName: searchQuery,
-          websites: ["all"],
-        }
-      )
-      .then((res) => {
-        setResultsRaw(res.data);
-        setResults(
-          res.data.sort((a, b) => {
-            return a.price - b.price;
-          })
-        );
-        setLoading(false);
-        setShowBanner(false);
-        setSearchedQuery(searchQuery);
-      })
-  }, [loading, searchQuery, setLoading, setResults, setResultsRaw, setSearchedQuery, setShowBanner])
+    // if searchQuery is empty, set loading to false and return
+    if (searchQuery === "") {
+      setLoading(false);
+      return;
+    }
+    // navigate to the stocks/[cardname] page
+    router.push(`/stocks/${searchQuery}`).then(() => {
+      setLoading(false);
+    }
+    );
+    
+
+  }, [loading, searchQuery, setLoading, setResults, setResultsRaw, setSearchedQuery, setShowBanner, router])
 
   const handleSubmit = (e) => {
     e.preventDefault();

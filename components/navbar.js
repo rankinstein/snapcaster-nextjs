@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 
 import { useState } from "react";
+
+import Link from "next/link";
 export default function Navbar() {
   // get the current page from the url
   // set the current page to true
@@ -9,17 +11,18 @@ export default function Navbar() {
   // const store = useAppStore();
   // store.test();
   const currentPath = useRouter().pathname;
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pages = [
     { name: "Home", href: "/", current: currentPath === "/" },
-    { name: "Stocks", href: "stocks", current: currentPath === "/stocks" },
+    { name: "Stocks", href: "/stocks", current: currentPath === "/stocks" },
     {
       name: "Multi-search",
-      href: "multisearch",
+      href: "/multisearch",
       current: currentPath === "/multisearch",
     },
-    { name: "Sealed", href: "sealed", current: currentPath === "/sealed" },
-    { name: "About", href: "about", current: currentPath === "/about" },
+    { name: "Sealed", href: "/sealed", current: currentPath === "/sealed" },
+    { name: "About", href: "/about", current: currentPath === "/about" },
   ];
   return (
     <div>
@@ -93,15 +96,9 @@ export default function Navbar() {
                     <a
                       key={page.name}
                       href={page.href}
-                      // stocks page should have red background
-                      // current page should have gray background (even for stocks page)
                       className={`
  rounded-md py-2 px-3 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700
-${
-  page.current
-    && "text-white bg-gray-600 hover:bg-gray-500"
-
-} 
+${page.current && "text-white bg-gray-600 hover:bg-gray-500"} 
 `}
                     >
                       {page.name}
@@ -118,20 +115,12 @@ ${
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
               {pages.map((page) => (
-                <a
-                  key={page.name}
-                  href={page.href}
-                  className={`
-text-white block rounded-md py-2 px-3 text-base font-medium hover:bg-gray-700
-${
-  page.current
-    ? "bg-gray-600 hover:bg-gray-500"
-    : page.name === "Stocks" && "bg-purple-900 hover:bg-purple-700"
-}
-`}
-                >
-                  {page.name}
-                </a>
+                    <Link href={page.href} as={page.href} key={page.name} className={`
+                    rounded-md py-2 px-3 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700
+                    ${page.current && "text-white bg-gray-600 hover:bg-gray-500"} 
+                    `}>
+                      {page.name}
+                  </Link>
               ))}
             </div>
           </div>
