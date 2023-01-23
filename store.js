@@ -42,6 +42,8 @@ const websiteLogos = {
     "https://d1rw89lz12ur5s.cloudfront.net/store/aethervaultgames/baa99644755e44c2a11d7bc20494e7b0/large/AetherVaultGames.png",
   thecomichunter:
     "https://d1rw89lz12ur5s.cloudfront.net/store/comichunter/77344716f796416590aa7e3ec91af534/large/ComicHunter.png",
+  fantasyforged:
+    "https://cdn.shopify.com/s/files/1/0549/9876/1695/files/test_2_78e84d47-24dc-43f9-a89d-e94611e6672a_120x.png?v=1660519029"
 };
 
 const websites = [
