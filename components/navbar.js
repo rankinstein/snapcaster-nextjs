@@ -116,7 +116,7 @@ ${page.current && "text-white bg-gray-600 hover:bg-gray-500"}
             <div className="px-2 pt-2 pb-3 space-y-1">
               {pages.map((page) => (
                     <Link href={page.href} as={page.href} key={page.name} className={`
-                    rounded-md py-2 px-3 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700
+                    block rounded-md py-2 px-3 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700
                     ${page.current && "text-white bg-gray-600 hover:bg-gray-500"} 
                     `}>
                       {page.name}
