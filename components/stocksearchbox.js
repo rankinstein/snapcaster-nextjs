@@ -26,7 +26,6 @@ export default function Stocksearchbox() {
     autoCompleteResults,
   } = useHomePageStore();
 
-  // set loading to false
 
   useEffect(() => {
     if (!loading) {
@@ -39,7 +38,10 @@ export default function Stocksearchbox() {
       return;
     }
     // navigate to the stocks/[cardname] page
-    router.push(`/stocks/${searchQuery}`);
+    router.push(`/stocks/${searchQuery}`).then(() => {
+      setLoading(false);
+    }
+    );
     
 
   }, [loading, searchQuery, setLoading, setResults, setResultsRaw, setSearchedQuery, setShowBanner])

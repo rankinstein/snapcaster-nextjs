@@ -73,6 +73,7 @@ export async function getServerSideProps(context) {
     // await fetch(`https://snapcasterv2-api-production.up.railway.app/pricedata/card/${card}/`)
     .then((res) => res.json())
     .then((json) => {
+      console.log("json", json)
       if (json.price_data.length !== 0) {
 
       // before setting data=json, we want to round the prices to 2 decimal places
