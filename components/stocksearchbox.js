@@ -38,7 +38,7 @@ export default function Stocksearchbox() {
       return;
     }
     // navigate to the stocks/[cardname] page
-    router.push(`/stocks/${searchQuery}`).then(() => {
+    router.push(`/stocks/${searchQuery}/`).then(() => {
       setLoading(false);
     }
     );
