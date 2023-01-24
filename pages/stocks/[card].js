@@ -11,10 +11,10 @@ export default function Card({ card, data }) {
   return (
     <>
       <Head>
-        <title>{data.card_name}</title>
+        <title>{data.card_name} prices Canada - snapcaster</title>
         <meta
           name="description"
-          content={`Canadian price data for ${data.card_name}`}
+          content={`Canadian MTG price data for ${data.card_name}`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

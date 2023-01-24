@@ -15,18 +15,26 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Snapcaster</title>
+        <title>snapcaster</title>
         <meta
           name="description"
-          content="Search Magic the Gathering singles in Canada"
+          content="Search for Magic the Gathering singles in Canada"
         />
+        <meta property="og:title" content={`snapcaster - Search for Magic: the Gathering cards across Canada`} />
+        <meta property="og:description" content={`Find your Magic the Gathering singles and sealed product using snapcaster. Search over 20 Canadian stores.`} />
+        <meta
+          property="og:url"
+          content={`https://snapcaster.ca`}
+        />
+        <meta property="og:type" content="website" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex flex-col justify-between items-center p-8 min-h-screen">
         {/* We want Homebanner and Searchbox components to fade out to 0 opacity and then fade in CatalogView component */}
         {/* This happens when loading is set to false */}
-        <div className="flex-col justify-center flex-1 text-center max-w-xl w-full"
+        <div
+          className="flex-col justify-center flex-1 text-center max-w-xl w-full"
           // close autocomplete when clicking outside of the searchbox
           onClick={() => {
             store.setShowAutoComplete(false);

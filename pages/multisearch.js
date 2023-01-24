@@ -11,10 +11,10 @@ export default function Multisearch() {
   return (
     <>
       <Head>
-        <title>Snapcaster</title>
+        <title>Multi Search - snapcaster</title>
         <meta
           name="description"
-          content="Search Magic the Gathering singles in Canada"
+          content="Search for bulk Magic the Gathering singles in Canada"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

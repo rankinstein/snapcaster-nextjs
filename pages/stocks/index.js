@@ -12,10 +12,10 @@ export default function Stocks({ test }) {
   return (
     <>
     <Head>
-      <title>Snapcaster</title>
+      <title>Price History - snapcaster</title>
       <meta
         name="description"
-        content="Search Magic the Gathering singles in Canada"
+        content="Search price history for Magic the Gathering singles in Canada"
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />

@@ -12,10 +12,10 @@ export default function Sealed() {
   return (
     <>
       <Head>
-        <title>Snapcaster</title>
+        <title>Sealed Search - snapcaster</title>
         <meta
           name="description"
-          content="Search Magic the Gathering singles in Canada"
+          content="Search Magic the Gathering sealed products in Canada"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -32,7 +32,7 @@ export default function Sealed() {
             </div>
           )}
           <div className="mt-2">
-            {store.results.length > 0 && (
+            {store.resultsRaw.length > 0 && (
               <div>
                 <SealedResultsInfo />
                 <SealedSearchFilters />

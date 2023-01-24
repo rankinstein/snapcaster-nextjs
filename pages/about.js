@@ -9,7 +9,7 @@ export default function About() {
   return (
     <>
       <Head>
-        <title>Snapcaster</title>
+        <title>About - snapcaster</title>
         <meta
           name="description"
           content="Search Magic the Gathering singles in Canada"
