@@ -1,18 +1,20 @@
 import axios from "axios";
 import useStore from "@/store";
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 const API_URI = process.env.NEXT_PUBLIC_API_URI;
+
 export default function Searchbox() {
   const { useHomePageStore } = useStore();
-  const { 
-    searchQuery, 
+  const {
+    searchQuery,
     setSearchQuery,
-    setOnlySearchQuery, 
-    setSearchedQuery, 
-    loading, 
-    setLoading, 
-    setResultsRaw, 
-    setResults, 
+    setOnlySearchQuery,
+    setSearchedQuery,
+    loading,
+    setLoading,
+    setResultsRaw,
+    setResults,
     setShowBanner,
     showAutoComplete,
     setShowAutoComplete,
@@ -21,17 +23,14 @@ export default function Searchbox() {
 
   useEffect(() => {
     if (!loading) {
-      return
+      return;
     }
 
     axios
-      .post(
-        `${API_URI}/search/single/`,
-        {
-          cardName: searchQuery,
-          websites: ["all"],
-        }
-      )
+      .post(`${API_URI}/search/single/`, {
+        cardName: searchQuery,
+        websites: ["all"],
+      })
       .then((res) => {
         setResultsRaw(res.data);
         setResults(
@@ -42,14 +41,78 @@ export default function Searchbox() {
         setLoading(false);
         setShowBanner(false);
         setSearchedQuery(searchQuery);
-      })
-  }, [loading, searchQuery, setLoading, setResults, setResultsRaw, setSearchedQuery, setShowBanner])
+      });
+  }, [
+    loading,
+    searchQuery,
+    setLoading,
+    setResults,
+    setResultsRaw,
+    setSearchedQuery,
+    setShowBanner,
+  ]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setShowAutoComplete(false);
-    setLoading(true);
-  };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      setShowAutoComplete(false);
+      setLoading(true);
+    },
+    [setShowAutoComplete, setLoading]
+  );
+
+  const searchRef = useRef();
+  const [selected, setSelected] = useState(-1);
+  const onKeyDown = useCallback(
+    (e) => {
+      if (!showAutoComplete) return;
+      switch (e.key) {
+        case "ArrowRight":
+          e.preventDefault();
+          setSearchQuery(autoCompleteResults[selected]);
+          setSelected(-1);
+          searchRef.current?.focus();
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          setSelected((s) => {
+            const nextSelection = s - 1;
+            if (nextSelection < 0) {
+              searchRef.current?.focus();
+              return -1;
+            }
+            return nextSelection;
+          });
+          break;
+        case "ArrowDown":
+          e.preventDefault();
+          setSelected((s) => {
+            const nextSelection = s + 1;
+            if (nextSelection > autoCompleteResults.length - 1) {
+              return autoCompleteResults.length - 1;
+            }
+            return nextSelection;
+          });
+          break;
+        case "Enter":
+          setSearchQuery(autoCompleteResults[selected]);
+          handleSubmit(e);
+          break;
+      }
+    },
+    [
+      showAutoComplete,
+      autoCompleteResults,
+      setSearchQuery,
+      selected,
+      handleSubmit,
+    ]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [onKeyDown]);
 
   return (
     <div className="mt-6 w-full">
@@ -60,11 +123,19 @@ export default function Searchbox() {
           }}
         >
           <input
+            ref={searchRef}
             type="text"
-            className="block w-full px-4 py-2  placeholder-gray-500 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+            className={`block w-full px-4 py-2  placeholder-gray-500 border border-gray-300 rounded-md shadow-sm  sm:text-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 ${
+              showAutoComplete ? "ring-purple-500 border-purple-500" : ""
+            }`}
             placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowDown" && showAutoComplete) {
+                e.target.blur();
+              }
+            }}
             spellCheck="false"
           />
           <div
@@ -92,22 +163,27 @@ export default function Searchbox() {
         {/* Autocomplete results from store.autoCompleteResults */}
         {/* when clicking anywhere outside the autocomplete, set showAutoComplete to false */}
         {showAutoComplete && (
-          <div className="absolute top-12 w-full bg-gray-800 rounded-md shadow-lg"
+          <div
+            className="absolute top-12 w-full overflow-hidden rounded-md shadow-lg"
+            onMouseOut={() => setSelected(-1)}
             onClick={() => {
               setShowAutoComplete(false);
             }}
           >
             <ul className="divide-y divide-gray-700">
-              {autoCompleteResults.map((result) => (
+              {autoCompleteResults.map((cardName, index) => (
                 <li
-                  key={result}
-                  className="px-3 py-3 cursor-pointer hover:bg-gray-700"
+                  key={cardName}
+                  className={`px-3 py-3 cursor-pointer ${
+                    selected === index ? "bg-gray-700" : "bg-gray-800"
+                  }`}
                   onClick={(e) => {
-                    setOnlySearchQuery(result);
+                    setOnlySearchQuery(cardName);
                     handleSubmit(e);
                   }}
+                  onMouseOver={() => setSelected(index)}
                 >
-                  <p className="text-sm text-gray-300">{result}</p>
+                  <p className="text-sm text-gray-300">{cardName}</p>
                 </li>
               ))}
             </ul>
